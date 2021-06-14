@@ -41,7 +41,6 @@ function registerSchema(req, res, next) {
 }
 
 function register(req, res, next) {
-    res.json({ message: req.body });
     userService.create(req.body)
         .then(() => res.json({ message: 'Registration successful' }))
         .catch(next);
