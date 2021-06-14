@@ -132,12 +132,15 @@ app.delete('/place', (req, res) => {
     })
 });
 
+/********************************** SETTINGS *******************************/
+
+
+
+
+
+/********************************** SETTINGS *******************************/
+
 app.use((req, res) => {
     respuesta = { error:true, codigo: 200, mensaje: 'URL not found'};
     res.status(404).send(respuesta);
 });
-
-// app.listen(port, () => {
-//     console.log('App listening on port 300');
-    
-// });
