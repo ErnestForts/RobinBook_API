@@ -57,32 +57,32 @@ app.get('/book', (req, res) => {
     }
 });
 
-// app.post('/discos', (req, res) => {
-//     let params = [req.body.titulo, req.body.interprete, req.body.anyoPublicacion];
-//     let sql = 'INSERT INTO angular.discos (titulo, interprete, anyoPublicacion) VALUES (?,?,?);';
-//     connection.query(sql, params, (err, result) => {
-//         if(err) throw res.send(err);
-//         res.send(result);
-//     });
-// });
+app.post('/book', (req, res) => {
+    let params = [req.body.Titulo, req.body.Autor, req.body.Descripcion, req.body.Foto];
+    let sql = 'INSERT INTO robinbook.Libros (Titulo, Autor, Descripcion, Foto) VALUES (?,?,?,?);';
+    connection.query(sql, params, (err, result) => {
+        if(err) throw res.send(err);
+        res.send(result);
+    });
+});
 
-// app.put('/discos', (req, res) => {
-//     let params = [req.body.titulo, req.body.interprete, req.body.anyoPublicacion, req.body.id];
-//     let sql = 'UPDATE angular.discos AS d SET d.titulo=COALESCE(?, titulo), d.interprete=COALESCE(?, interprete), d.anyoPublicacion=COALESCE(?, anyoPublicacion) WHERE (id = ?);';
-//     connection.query(sql, params, (err, result) => {
-//         if (err) throw res.send(err);
-//         res.send(result);
-//     });
-// });
+app.put('/book', (req, res) => {
+    let params = [req.body.Titulo, req.body.Autor, req.body.Descripcion, req.body.Foto, req.body.libro_id];
+    let sql = 'UPDATE robinbook.Libros AS book SET book.Titulo=COALESCE(?, Titulo), book.Autor=COALESCE(?, Autor), book.Descripcion=COALESCE(?, Descripcion) , book.Foto=COALESCE(?, Foto) WHERE (libro_id = ?);';
+    connection.query(sql, params, (err, result) => {
+        if (err) throw res.send(err);
+        res.send(result);
+    });
+});
 
-// app.delete('/discos', (req, res) => {
-//     let params = [req.body.id];
-//     let sql = "DELETE FROM angular.discos WHERE (id = ?);";
-//     connection.query(sql, params, (err, result) => {
-//         if (err) throw res.send(err);
-//         res.send(result);
-//     })
-// });
+app.delete('/book', (req, res) => {
+    let params = [req.body.libro_id];
+    let sql = "DELETE FROM robinbook.Libros WHERE (libro_id = ?);";
+    connection.query(sql, params, (err, result) => {
+        if (err) throw res.send(err);
+        res.send(result);
+    })
+});
 
 
 app.use((req, res) => {
