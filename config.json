@@ -1,10 +1,10 @@
 {
     "database": {
-        "host": "localhost",
+        "host": "robinbook.cvzz91ztbary.eu-west-3.rds.amazonaws.com",
         "port": 3306,
-        "user": "root",
-        "password": "codesound",
-        "database": "robin-book"
+        "user": "admin",
+        "password": "RobinBookDB",
+        "database": "robinbook"
     },
     "secret": "aA/dj0Z8GmCZnIViFM4pmDpg1mgtit96TnVZWLkvLns="
 }
