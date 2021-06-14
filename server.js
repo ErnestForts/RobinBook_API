@@ -2,6 +2,7 @@ require('rootpath')();
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const mysql = require('mysql2');
 const errorHandler = require('_middleware/error-handler');
 
 app.use(express.json());
