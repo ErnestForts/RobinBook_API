@@ -13,7 +13,7 @@ module.exports = {
 };
 
 async function authenticate({ username, password }) {
-    const user = await db.Users.scope('withHash').findOne({ where: { username } });
+    const user = await db.User.scope('withHash').findOne({ where: { username } });
 
     if (!user || !(await bcrypt.compare(password, user.hash)))
         throw 'Username or password is incorrect';
@@ -24,7 +24,7 @@ async function authenticate({ username, password }) {
 }
 
 async function getAll() {
-    return await db.Users.findAll();
+    return await db.User.findAll();
 }
 
 async function getById(id) {
@@ -33,7 +33,7 @@ async function getById(id) {
 
 async function create(params) {
     // validate
-    if (await db.Users.findOne({ where: { Email: params.username } })) {
+    if (await db.User.findOne({ where: { username: params.username } })) {
         throw 'Username "' + params.username + '" is already taken';
     }
 
@@ -43,7 +43,7 @@ async function create(params) {
     }
 
     // save user
-    await db.Users.create(params);
+    await db.User.create(params);
 }
 
 async function update(id, params) {
@@ -51,7 +51,7 @@ async function update(id, params) {
 
     // validate
     const usernameChanged = params.username && user.username !== params.username;
-    if (usernameChanged && await db.Users.findOne({ where: { username: params.username } })) {
+    if (usernameChanged && await db.User.findOne({ where: { username: params.username } })) {
         throw 'Username "' + params.username + '" is already taken';
     }
 
@@ -75,8 +75,8 @@ async function _delete(id) {
 // helper functions
 
 async function getUser(id) {
-    const user = await db.Users.findByPk(id);
-    if (!user) throw 'Users not found';
+    const user = await db.User.findByPk(id);
+    if (!user) throw 'User not found';
     return user;
 }
 
