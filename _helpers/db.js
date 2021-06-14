@@ -1,11 +1,10 @@
 var mysql = require('mysql2');
 var connection = mysql.createConnection({
-    host     : 'robinbook.cvzz91ztbary.eu-west-3.rds.amazonaws.com',
-    user     : 'admin',
-    password : 'RobinBookDB',
-    database: 'robinbook'
-  });
-  connection.connect();
+  host     : 'robinbook.cvzz91ztbary.eu-west-3.rds.amazonaws.com',
+  user     : 'admin',
+  password : 'RobinBookDB',
+  database: 'robinbook'
+});
 
 connection.connect(function(err) {
     if (err) throw err;
