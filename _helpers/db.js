@@ -16,7 +16,7 @@ async function initialize() {
     const sequelize = new Sequelize(ENV['database'], ENV['user'], ENV['password'], { dialect: 'mysql' });
 
     // init models and add them to the exported db object
-    db.User = require('../users/user.model')(sequelize);
+    db.Users = require('../users/user.model')(sequelize);
 
     // sync all models with database
     await sequelize.sync();
