@@ -2,7 +2,7 @@ const config = require('config.json');
 const mysql = require('mysql2/promise');
 const { Sequelize } = require('sequelize');
 
-module.exports = db = {User};
+module.exports = db = {};
 
 initialize();
 
