@@ -1,12 +1,10 @@
 const {
-  getBooks,
+  getBook,
   getBookById,
   createBook,
   updateBook,
   deleteBook
   } = require("./book.service");
-  const { hashSync, genSaltSync, compareSync } = require("bcrypt");
-  const { sign } = require("jsonwebtoken");
 
 const saltRounds = 10;
   
@@ -14,8 +12,7 @@ const saltRounds = 10;
     createBook: (req, res) => {
       const body = req.body;
       console.log(body.Nombre);
-      // body.Password = hashSync(body.Password, saltRounds);
-      create(body, (err, results) => {
+      createBook(body, (err, results) => {
         if (err) {
           console.log(err);
           return res.status(500).json({
@@ -31,7 +28,7 @@ const saltRounds = 10;
     },
     getBookById: (req, res) => {
       const id = req.params.id;
-      getPlaceById(id, (err, results) => {
+      getBookById(id, (err, results) => {
         if (err) {
           console.log(err);
           return;
@@ -49,8 +46,8 @@ const saltRounds = 10;
         });
       });
     },
-    getPlaces: (req, res) => {
-      getPlaces((err, results) => {
+    getBook: (req, res) => {
+      getBook((err, results) => {
         if (err) {
           console.log(err);
           return;
@@ -63,8 +60,6 @@ const saltRounds = 10;
     },
     updateBook: (req, res) => {
       const body = req.body;
-      const salt = genSaltSync(10);
-      // body.Password = hashSync(body.Password, salt);
       updateBook(body, (err, results) => {
         if (err) {
           console.log(err);

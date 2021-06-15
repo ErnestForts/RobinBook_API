@@ -1,29 +1,21 @@
 const {
-  createPlace,
-  getPlaceById,
   getPlaces,
+  getPlaceById,
+  createPlace,
   updatePlace,
-  deleteUser
+  deletePlace
   } = require("./place.service");
-  const { hashSync, genSaltSync, compareSync } = require("bcrypt");
-  const { sign } = require("jsonwebtoken");
 
 const saltRounds = 10;
   
   module.exports = {
-    createPlace: (req, res) => {
-      const body = req.body;
-      console.log(body.Nombre);
-      // body.Password = hashSync(body.Password, saltRounds);
-      create(body, (err, results) => {
+    getPlaces: (req, res) => {
+      getPlaces((err, results) => {
         if (err) {
           console.log(err);
-          return res.status(500).json({
-            success: 0,
-            message: err
-          });
+          return;
         }
-        return res.status(200).json({
+        return res.json({
           success: 1,
           data: results
         });
@@ -49,13 +41,18 @@ const saltRounds = 10;
         });
       });
     },
-    getPlaces: (req, res) => {
-      getPlaces((err, results) => {
+    createPlace: (req, res) => {
+      const body = req.body;
+      console.log(body.Nombre);
+      create(body, (err, results) => {
         if (err) {
           console.log(err);
-          return;
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
         }
-        return res.json({
+        return res.status(200).json({
           success: 1,
           data: results
         });
@@ -63,8 +60,6 @@ const saltRounds = 10;
     },
     updatePlace: (req, res) => {
       const body = req.body;
-      const salt = genSaltSync(10);
-      // body.Password = hashSync(body.Password, salt);
       updateUser(body, (err, results) => {
         if (err) {
           console.log(err);

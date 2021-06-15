@@ -3,7 +3,7 @@ var pool = require('../_helpers/db');
 module.exports = {
     getBooks: callBack => {
         pool.query(
-            `SELECT * FROM robinbook.Lugares;`,
+            `SELECT * FROM robinbook.Libros;`,
             [],
             (error, results, fields) => {
             if (error) {
@@ -15,13 +15,13 @@ module.exports = {
     },
     getBookById: (libro_id, callBack) => {
         pool.query(
-            `SELECT * FROM robinbook.Libros WHERE Lugar_id = ?;`,
+            `SELECT * FROM robinbook.Libros WHERE libro_id = ?;`,
             [libro_id],
             (error, results, fields) => {
             if (error) {
                 callBack(error);
             }
-            return callBack(null, results[0]);
+            return callBack(null, results);
             }
         );
     },
