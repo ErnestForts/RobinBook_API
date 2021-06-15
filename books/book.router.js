@@ -1,18 +1,18 @@
 const router = require("express").Router();
 const { checkToken } = require("../_middleware/token.validation");
 const {
-  createPlace,
-  getPlaceById,
-  getPlaces,
-  updatePlace,
-  deletePlace
+  getBooks,
+  getBookById,
+  createBook,
+  updateBook,
+  deleteBook
 } = require("./book.controller");
 
-router.get("/", checkToken, getPlaces);
-router.get("/:id", checkToken, getPlaceById);
-router.put("/", checkToken, updatePlace);
-router.delete("/", checkToken, deletePlace);
+router.get("/", checkToken, getBooks);
+router.get("/:id", checkToken, getBookById);
+router.put("/", checkToken, updateBook);
+router.delete("/", checkToken, deleteBook);
 
-router.post("/new", createPlace);
+router.post("/new", createBook);
 
 module.exports = router;

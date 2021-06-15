@@ -1,9 +1,9 @@
 const {
-  createPlace,
-  getPlaceById,
-  getPlaces,
-  updatePlace,
-  deleteUser
+  getBooks,
+  getBookById,
+  createBook,
+  updateBook,
+  deleteBook
   } = require("./book.service");
   const { hashSync, genSaltSync, compareSync } = require("bcrypt");
   const { sign } = require("jsonwebtoken");
@@ -11,7 +11,7 @@ const {
 const saltRounds = 10;
   
   module.exports = {
-    createPlace: (req, res) => {
+    createBook: (req, res) => {
       const body = req.body;
       console.log(body.Nombre);
       // body.Password = hashSync(body.Password, saltRounds);
@@ -29,7 +29,7 @@ const saltRounds = 10;
         });
       });
     },
-    getPlaceById: (req, res) => {
+    getBookById: (req, res) => {
       const id = req.params.id;
       getPlaceById(id, (err, results) => {
         if (err) {
@@ -61,11 +61,11 @@ const saltRounds = 10;
         });
       });
     },
-    updatePlace: (req, res) => {
+    updateBook: (req, res) => {
       const body = req.body;
       const salt = genSaltSync(10);
       // body.Password = hashSync(body.Password, salt);
-      updateUser(body, (err, results) => {
+      updateBook(body, (err, results) => {
         if (err) {
           console.log(err);
           return;
@@ -76,10 +76,10 @@ const saltRounds = 10;
         });
       });
     },
-    deletePlace: (req, res) => {
+    deleteBook: (req, res) => {
       const data = req.body;
       console.log(data);
-      deletePlace(data, (err, results) => {
+      deleteBook(data, (err, results) => {
         if (err) {
           console.log(err);
           return;
