@@ -1,72 +1,17 @@
-var mysql = require('mysql2');
-var connection = mysql.createConnection({
-    host     : 'robinbook.cvzz91ztbary.eu-west-3.rds.amazonaws.com',
-    user     : 'admin',
-    password : 'RobinBookDB',
-    database: 'robinbook'
+const { createPool } = require('mysql2');
+
+try{
+  var pool = createPool({
+    host: 'robinbook.cvzz91ztbary.eu-west-3.rds.amazonaws.com',
+    port:3306,
+    user: 'admin',
+    password: 'RobinBookDB',
+    database: 'robinbook',
+    connectionLimit: 10
   });
-
-connection.connect(function(err) {
-    if (err) throw err;
-});
-
-exports.register = async function(req,res){
-    const password = req.body.password;
-    const encryptedPassword = await bcrypt.hash(password, saltRounds)
-  
-    var users={
-       "email":req.body.email,
-       "password":encryptedPassword
-     }
-    
-    connection.query('INSERT INTO users SET ?',users, function (error, results, fields) {
-      if (error) {
-        res.send({
-          "code":400,
-          "failed":"error ocurred"
-        })
-      } else {
-        res.send({
-          "code":200,
-          "success":"user registered sucessfully"
-            });
-        }
-    });
-  }
-  
-  exports.login = async function(req,res){
-    var email= req.body.email;
-    var password = req.body.password;
-    connection.query('SELECT * FROM users WHERE email = ?',[email], async function (error, results, fields) {
-      if (error) {
-        res.send({
-          "code":400,
-          "failed":"error ocurred"
-        })
-      }else{
-        if(results.length >0){
-          const comparision = await bcrypt.compare(password, results[0].password)
-          if(comparision){
-              res.send({
-                "code":200,
-                "success":"login sucessfull"
-              })
-          }
-          else{
-            res.send({
-                 "code":204,
-                 "success":"Email and password does not match"
-            })
-          }
-        }
-        else{
-          res.send({
-            "code":206,
-            "success":"Email does not exits"
-              });
-        }
-      }
-      });
-    }
-
-// module.exports = connection;
+  module.exports = pool;
+  console.log("Connected");
+}
+catch(err){
+  console.log(err);
+}

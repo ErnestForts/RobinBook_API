@@ -1,85 +1,135 @@
-const express = require('express');
-const router = express.Router();
-const Joi = require('joi');
-const validateRequest = require('_middleware/validate-request');
-const authorize = require('_middleware/authorize')
-const userService = require('./user.service');
+const {
+    create,
+    getUserByUserEmail,
+    getUserByUserId,
+    getUsers,
+    updateUser,
+    deleteUser
+  } = require("./user.service");
+  const { hashSync, genSaltSync, compareSync } = require("bcrypt");
+  const { sign } = require("jsonwebtoken");
 
-// routes
-router.post('/authenticate', authenticateSchema, authenticate);
-router.post('/register', registerSchema, register);
-router.get('/', authorize(), getAll);
-router.get('/current', authorize(), getCurrent);
-router.get('/:id', authorize(), getById);
-router.put('/:id', authorize(), updateSchema, update);
-router.delete('/:id', authorize(), _delete);
-
-module.exports = router;
-
-function authenticateSchema(req, res, next) {
-    const schema = Joi.object({
-        username: Joi.string().required(),
-        password: Joi.string().required()
-    });
-    validateRequest(req, next, schema);
-}
-
-function authenticate(req, res, next) {
-    userService.authenticate(req.body)
-        .then(user => res.json(user))
-        .catch(next);
-}
-
-function registerSchema(req, res, next) {
-    const schema = Joi.object({
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
-        username: Joi.string().required(),
-        password: Joi.string().min(6).required()
-    });
-    validateRequest(req, next, schema);
-}
-
-function register(req, res, next) {
-    userService.create(req.body)
-        .then(() => res.json({ message: 'Registration successful' }))
-        .catch(next);
-}
-
-function getAll(req, res, next) {
-    userService.getAll()
-        .then(users => res.json(users))
-        .catch(next);
-}
-
-function getCurrent(req, res, next) {
-    res.json(req.user);
-}
-
-function getById(req, res, next) {
-    userService.getById(req.params.id)
-        .then(user => res.json(user))
-        .catch(next);
-}
-
-function updateSchema(req, res, next) {
-    const schema = Joi.object({
-        firstName: Joi.string().empty(''),
-        lastName: Joi.string().empty(''),
-        username: Joi.string().empty(''),
-        password: Joi.string().min(6).empty('')
-    });
-    validateRequest(req, next, schema);
-}
-
-function update(req, res, next) {
-    userService.update(req.params.id, req.body)
-        .then(user => res.json(user))
-        .catch(next);
-}
-
-function _delete(req, res, next) {
-    userService.delete(req.params.id)
-        .then(() => res.json({ message: 'User deleted successfully' }))
-        .catch(next);
-}
+  const config = {
+	secret : "aA/dj0Z8GmCZnIViFM4pmDpg1mgtit96TnVZWLkvLns="
+};
+const saltRounds = 10;
+  
+  module.exports = {
+    createUser: (req, res) => {
+      const body = req.body;
+      console.log(body.Password);
+      body.Password = hashSync(body.Password, saltRounds);
+      create(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: "Database connection errror"
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    login: (req, res) => {
+      const body = req.body;
+      getUserByUserEmail(body.Email, (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            data: "Invalid email or password"
+          });
+        }
+        const result = compareSync(body.Password, results.Password);
+        if (result) {
+          results.Password = undefined;
+          const jsontoken = sign({ result: results }, config.secret, {
+            expiresIn: "12h"
+          });
+          return res.json({
+            success: 1,
+            message: "login successfully",
+            token: jsontoken
+          });
+        } else {
+          return res.json({
+            success: 0,
+            data: "Invalid email or password"
+          });
+        }
+      });
+    },
+    getUserByUserId: (req, res) => {
+      const id = req.params.id;
+      getUserByUserId(id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record not Found"
+          });
+        }
+        results.password = undefined;
+        return res.json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    getUsers: (req, res) => {
+      getUsers((err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        return res.json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    updateUsers: (req, res) => {
+      const body = req.body;
+      const salt = genSaltSync(10);
+      body.Password = hashSync(body.Password, salt);
+      updateUser(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        return res.json({
+          success: 1,
+          message: "updated successfully"
+        });
+      });
+    },
+    deleteUser: (req, res) => {
+      const data = req.body;
+      console.log(data);
+      deleteUser(data, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(results);
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record Not Found"
+          });
+        }
+        return res.json({
+          success: 1,
+          message: "user deleted successfully"
+        });
+      });
+    }
+  };
