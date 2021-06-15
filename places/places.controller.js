@@ -12,7 +12,7 @@ const {
 const saltRounds = 10;
   
   module.exports = {
-    createUser: (req, res) => {
+    createPlace: (req, res) => {
       const body = req.body;
       console.log(body.Password);
       body.Password = hashSync(body.Password, saltRounds);
