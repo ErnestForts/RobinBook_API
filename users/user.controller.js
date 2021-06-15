@@ -45,7 +45,7 @@ const saltRounds = 10;
         const result = compareSync(body.Password, results.Password);
         if (result) {
           results.Password = undefined;
-          const jsontoken = sign({ result: results }, ENV['secret'], {
+          const jsontoken = sign({ result: results }, process.env.secret, {
             expiresIn: "12h"
           });
           return res.json({

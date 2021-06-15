@@ -2,11 +2,11 @@ const { createPool } = require('mysql2');
 
 try{
   var pool = createPool({
-    host: ENV['host'],
-    port: ENV['port'],
-    user: ENV['user'],
-    password: ENV['password'],
-    database: ENV['database'],
+    host: process.env.host,
+    port: process.env.port,
+    user: process.env.user,
+    password: process.env.password,
+    database: process.env.database,
     connectionLimit: 10
   });
   module.exports = pool;
