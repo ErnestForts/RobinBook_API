@@ -21,7 +21,7 @@ const saltRounds = 10;
           console.log(err);
           return res.status(500).json({
             success: 0,
-            message: "Database connection errror"
+            message: err
           });
         }
         return res.status(200).json({
