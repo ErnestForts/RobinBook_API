@@ -5,8 +5,6 @@ const {
   updatePlace,
   deletePlace
   } = require("./place.service");
-
-const saltRounds = 10;
   
   module.exports = {
     getPlaces: (req, res) => {
@@ -43,8 +41,7 @@ const saltRounds = 10;
     },
     createPlace: (req, res) => {
       const body = req.body;
-      console.log(body.Nombre);
-      create(body, (err, results) => {
+      createPlace(body, (err, results) => {
         if (err) {
           console.log(err);
           return res.status(500).json({
@@ -60,7 +57,7 @@ const saltRounds = 10;
     },
     updatePlace: (req, res) => {
       const body = req.body;
-      updateUser(body, (err, results) => {
+      updatePlace(body, (err, results) => {
         if (err) {
           console.log(err);
           return;
@@ -73,7 +70,6 @@ const saltRounds = 10;
     },
     deletePlace: (req, res) => {
       const data = req.body;
-      console.log(data);
       deletePlace(data, (err, results) => {
         if (err) {
           console.log(err);

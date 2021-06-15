@@ -1,26 +1,19 @@
 const {
-  getBook,
+  getBooks,
   getBookById,
   createBook,
   updateBook,
   deleteBook
   } = require("./book.service");
-
-const saltRounds = 10;
   
   module.exports = {
-    createBook: (req, res) => {
-      const body = req.body;
-      console.log(body.Nombre);
-      createBook(body, (err, results) => {
+    getBooks: (req, res) => {
+      getBooks((err, results) => {
         if (err) {
           console.log(err);
-          return res.status(500).json({
-            success: 0,
-            message: err
-          });
+          return;
         }
-        return res.status(200).json({
+        return res.json({
           success: 1,
           data: results
         });
@@ -46,13 +39,18 @@ const saltRounds = 10;
         });
       });
     },
-    getBook: (req, res) => {
-      getBook((err, results) => {
+    createBook: (req, res) => {
+      const body = req.body;
+      console.log(body.Nombre);
+      createBook(body, (err, results) => {
         if (err) {
           console.log(err);
-          return;
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
         }
-        return res.json({
+        return res.status(200).json({
           success: 1,
           data: results
         });

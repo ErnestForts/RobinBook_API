@@ -1,14 +1,14 @@
 const router = require("express").Router();
 const { checkToken } = require("../_middleware/token.validation");
 const {
-  getBook,
+  getBooks,
   getBookById,
   createBook,
   updateBook,
   deleteBook
 } = require("./book.controller");
 
-router.get("/", checkToken, getBook);
+router.get("/", checkToken, getBooks);
 router.get("/:id", checkToken, getBookById);
 router.patch("/", checkToken, updateBook);
 router.delete("/", checkToken, deleteBook);
