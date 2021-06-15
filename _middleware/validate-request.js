@@ -1,4 +1,3 @@
-module.exports = validateRequest;
 
 function validateRequest(req, next, schema) {
     const options = {
@@ -14,3 +13,5 @@ function validateRequest(req, next, schema) {
         next();
     }
 }
+
+module.exports = validateRequest;
