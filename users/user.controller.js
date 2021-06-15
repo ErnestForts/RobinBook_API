@@ -9,9 +9,6 @@ const {
   const { hashSync, genSaltSync, compareSync } = require("bcrypt");
   const { sign } = require("jsonwebtoken");
 
-  const config = {
-	secret : "aA/dj0Z8GmCZnIViFM4pmDpg1mgtit96TnVZWLkvLns="
-};
 const saltRounds = 10;
   
   module.exports = {
@@ -48,7 +45,7 @@ const saltRounds = 10;
         const result = compareSync(body.Password, results.Password);
         if (result) {
           results.Password = undefined;
-          const jsontoken = sign({ result: results }, config.secret, {
+          const jsontoken = sign({ result: results }, ENV['secret'], {
             expiresIn: "12h"
           });
           return res.json({

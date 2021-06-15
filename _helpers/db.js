@@ -2,11 +2,11 @@ const { createPool } = require('mysql2');
 
 try{
   var pool = createPool({
-    host: 'robinbook.cvzz91ztbary.eu-west-3.rds.amazonaws.com',
-    port:3306,
-    user: 'admin',
-    password: 'RobinBookDB',
-    database: 'robinbook',
+    host: ENV['host'],
+    port: ENV['port'],
+    user: ENV['user'],
+    password: ENV['password'],
+    database: ENV['database'],
     connectionLimit: 10
   });
   module.exports = pool;
