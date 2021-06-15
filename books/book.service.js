@@ -1,7 +1,7 @@
 var pool = require('../_helpers/db');
 
 module.exports = {
-    create: (data,callback) => {
+    createPlace: (data,callback) => {
         pool.query('INSERT INTO robinbook.Lugares (Nombre, Descripcion, Foto, tieneLibro) VALUES (?,?,?,?);',[data], (error, results, fields) =>{
             if(error){
                 callback(error);
@@ -10,7 +10,7 @@ module.exports = {
         }
         )
     },
-    getPlaceByLugar_id: (Lugar_id, callBack) => {
+    getPlaceById: (libro_id, callBack) => {
         pool.query(
           `SELECT * FROM robinbook.Libros WHERE Lugar_id = ?;`,
           [libro_id],
@@ -22,7 +22,7 @@ module.exports = {
           }
         );
     },
-    getPlace: callBack => {
+    getPlaces: callBack => {
     pool.query(
         `SELECT * FROM robinbook.Lugares;`,
         [],
