@@ -39,7 +39,7 @@ const saltRounds = 10;
         if (!results) {
           return res.json({
             auth: false,
-            data: "Invalid email or passwordD"
+            data: results
           });
         }
         const result = compareSync(body.Password, results.Password);
