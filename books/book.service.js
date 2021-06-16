@@ -28,6 +28,7 @@ module.exports = {
     createBook: (data,callback) => {
         pool.query(
             'INSERT INTO robinbook.Libros (Titulo, Autor, Descripcion, Foto) VALUES (?,?,?,?);',
+            'UPDATE robinbook.Users SET ranking = ranking + 20 WHERE user_id = ?;'
             [
             data.Titulo,
             data.Autor,

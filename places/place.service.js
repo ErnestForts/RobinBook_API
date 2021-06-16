@@ -28,6 +28,7 @@ module.exports = {
     createPlace: (data,callback) => {
         pool.query(
             'INSERT INTO robinbook.Lugares (Nombre, Descripcion, Foto, tieneLibro) VALUES (?,?,?,?);',
+            'UPDATE robinbook.Users SET ranking = ranking + 20 WHERE user_id = ?;'
             [
             data.Nombre,
             data.Descripcion,
