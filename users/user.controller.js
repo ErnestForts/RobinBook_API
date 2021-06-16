@@ -50,7 +50,8 @@ const saltRounds = 10;
           });
           return res.json({
             auth: true,
-            token: jsontoken
+            token: jsontoken,
+            user_id: results.user_id
           });
         } else {
           return res.json({
