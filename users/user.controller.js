@@ -14,7 +14,6 @@ const saltRounds = 10;
   module.exports = {
     createUser: (req, res) => {
       const body = req.body;
-      console.log(body.Password);
       body.Password = hashSync(body.Password, saltRounds);
       create(body, (err, results) => {
         if (err) {
@@ -32,14 +31,15 @@ const saltRounds = 10;
     },
     login: (req, res) => {
       const body = req.body;
+      console.log(body.Email);
       getUserByUserEmail(body.Email, (err, results) => {
         if (err) {
           console.log(err);
         }
         if (!results) {
           return res.json({
-            success: 0,
-            data: "Invalid email or password"
+            auth: false,
+            data: results
           });
         }
         const result = compareSync(body.Password, results.Password);
@@ -49,14 +49,14 @@ const saltRounds = 10;
             expiresIn: "12h"
           });
           return res.json({
-            success: 1,
-            message: "login successfully",
-            token: jsontoken
+            auth: true,
+            token: jsontoken,
+            user_id: results.user_id
           });
         } else {
           return res.json({
-            success: 0,
-            data: "Invalid email or password"
+            auth: false,
+            data: "Invalid email or passwordd"
           });
         }
       });
