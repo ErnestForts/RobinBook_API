@@ -15,13 +15,13 @@ module.exports = {
     },
     getPlaceById: (libro_id, callBack) => {
         pool.query(
-            `SELECT * FROM robinbook.Libros WHERE Lugar_id = ?;`,
+            `SELECT * FROM robinbook.Lugares WHERE Lugar_id = ?;`,
             [libro_id],
             (error, results, fields) => {
             if (error) {
                 callBack(error);
             }
-            return callBack(null, results[0]);
+            return callBack(null, results);
             }
         );
     },
