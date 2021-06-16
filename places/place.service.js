@@ -37,7 +37,17 @@ module.exports = {
             if(error){
                 callback(error);
             }
-            return callback(null,results);
+                pool.query(
+                    'UPDATE robinbook.Users SET ranking = ranking + 20 WHERE user_id = ?;',
+                    [
+                    data.user_id
+                    ], (error, results, fields) =>{
+                    if(error){
+                        callback(error);
+                    }
+                    return callback(null,results);
+                    }
+                );
             }
         );
     },
@@ -83,7 +93,17 @@ module.exports = {
             if(error){
                 callback(error);
             }
-            return callback(null,results);
+                pool.query(
+                    'UPDATE robinbook.Users SET ranking = ranking + 10 WHERE user_id = ?;',
+                    [
+                    data.user_id
+                    ], (error, results, fields) =>{
+                    if(error){
+                        callback(error);
+                    }
+                    return callback(null,results);
+                    }
+                );
             }
         );
     },
