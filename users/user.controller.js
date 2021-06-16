@@ -31,6 +31,7 @@ const saltRounds = 10;
     },
     login: (req, res) => {
       const body = req.body;
+      console.log(body.Email);
       getUserByUserEmail(body.Email, (err, results) => {
         if (err) {
           console.log(err);
