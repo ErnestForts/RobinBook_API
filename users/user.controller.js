@@ -14,7 +14,6 @@ const saltRounds = 10;
   module.exports = {
     createUser: (req, res) => {
       const body = req.body;
-      console.log(body.Password);
       body.Password = hashSync(body.Password, saltRounds);
       create(body, (err, results) => {
         if (err) {
@@ -38,7 +37,7 @@ const saltRounds = 10;
         }
         if (!results) {
           return res.json({
-            success: 0,
+            auth: false,
             data: "Invalid email or password"
           });
         }
@@ -49,13 +48,12 @@ const saltRounds = 10;
             expiresIn: "12h"
           });
           return res.json({
-            success: 1,
-            message: "login successfully",
+            auth: true,
             token: jsontoken
           });
         } else {
           return res.json({
-            success: 0,
+            auth: false,
             data: "Invalid email or password"
           });
         }
