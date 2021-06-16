@@ -13,6 +13,6 @@ router.get("/:id", checkToken, getBookById);
 router.patch("/", checkToken, updateBook);
 router.delete("/", checkToken, deleteBook);
 
-router.post("/new", createBook);
+router.post("/new", checkToken, createBook);
 
 module.exports = router;

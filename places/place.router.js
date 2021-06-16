@@ -13,6 +13,6 @@ router.get("/:id", checkToken, getPlaceById);
 router.patch("/", checkToken, updatePlace);
 router.delete("/", checkToken, deletePlace);
 
-router.post("/new", createPlace);
+router.post("/new", checkToken, createPlace);
 
 module.exports = router;
