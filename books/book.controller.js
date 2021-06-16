@@ -3,7 +3,10 @@ const {
   getBookById,
   createBook,
   updateBook,
-  deleteBook
+  deleteBook,
+  createComent,
+  insertBookFav,
+  getBookFav
   } = require("./book.service");
   
   module.exports = {
@@ -89,5 +92,57 @@ const {
           message: "place deleted successfully"
         });
       });
+    },
+    createComent: (req, res) => {
+      const body = req.body;
+      createComent(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    getBookFav: (req, res) => {
+      const id = req.params.id;
+      getBookFav(id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record not Found"
+          });
+        }
+        results.password = undefined;
+        return res.json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    insertBookFav: (req, res) => {
+      const body = req.body;
+      insertBookFav(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      })
     }
   };

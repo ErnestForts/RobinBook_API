@@ -37,7 +37,17 @@ module.exports = {
             if(error){
                 callback(error);
             }
-            return callback(null,results);
+                pool.query(
+                    'UPDATE robinbook.Users SET ranking = ranking + 20 WHERE user_id = ?;',
+                    [
+                    data.user_id
+                    ], (error, results, fields) =>{
+                    if(error){
+                        callback(error);
+                    }
+                    return callback(null,results);
+                    }
+                );
             }
         );
     },
@@ -69,6 +79,58 @@ module.exports = {
             }
             console.log(results[0]);
             return callBack(null, results);
+            }
+        );
+    },
+    createComent: (data,callback) => {
+        pool.query(
+            'INSERT INTO robinbook.ComentLibro (id_Libro, id_User, Coment) VALUES (?,?,?);',
+            [
+            data.id_Libro,
+            data.id_User,
+            data.Coment
+            ], (error, results, fields) =>{
+            if(error){
+                callback(error);
+            }
+                pool.query(
+                    'UPDATE robinbook.Users SET ranking = ranking + 10 WHERE user_id = ?;',
+                    [
+                    data.user_id
+                    ], (error, results, fields) =>{
+                    if(error){
+                        callback(error);
+                    }
+                    return callback(null,results);
+                    }
+                );
+            }
+        );
+    },
+    getBookFav: (user_id, callBack) => {
+        pool.query(
+            `SELECT * FROM robinbook.LibrosFav WHERE id_User = ?;`,
+            [user_id],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results);
+            }
+        );
+    },
+    insertBookFav: (data, callBack) => {
+        pool.query(
+            'INSERT INTO robinbook.LibrosFav (id_User, id_Libro) VALUES (?,?);',
+            [
+            data.id_User,
+            data.id_Libro
+            ],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results[0]);
             }
         );
     }

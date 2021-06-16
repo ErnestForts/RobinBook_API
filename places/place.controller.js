@@ -3,7 +3,10 @@ const {
   getPlaceById,
   createPlace,
   updatePlace,
-  deletePlace
+  deletePlace,
+  createComent,
+  insertPlaceFav,
+  getPlaceFav
   } = require("./place.service");
   
   module.exports = {
@@ -87,5 +90,57 @@ const {
           message: "place deleted successfully"
         });
       });
+    },
+    createComent: (req, res) => {
+      const body = req.body;
+      createComent(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    getPlaceFav: (req, res) => {
+      const id = req.params.id;
+      getPlaceFav(id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record not Found"
+          });
+        }
+        results.password = undefined;
+        return res.json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    insertPlaceFav: (req, res) => {
+      const body = req.body;
+      insertPlaceFav(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      })
     }
   };

@@ -13,10 +13,10 @@ module.exports = {
             }
         );
     },
-    getPlaceById: (libro_id, callBack) => {
+    getPlaceById: (lugar_id, callBack) => {
         pool.query(
             `SELECT * FROM robinbook.Lugares WHERE Lugar_id = ?;`,
-            [libro_id],
+            [lugar_id],
             (error, results, fields) => {
             if (error) {
                 callBack(error);
@@ -37,12 +37,22 @@ module.exports = {
             if(error){
                 callback(error);
             }
-            return callback(null,results);
+                pool.query(
+                    'UPDATE robinbook.Users SET ranking = ranking + 20 WHERE user_id = ?;',
+                    [
+                    data.user_id
+                    ], (error, results, fields) =>{
+                    if(error){
+                        callback(error);
+                    }
+                    return callback(null,results);
+                    }
+                );
             }
         );
     },
     updatePlace: (data, callBack) => {
-    pool.query(
+        pool.query(
             `UPDATE robinbook.Lugares AS place SET place.Nombre=COALESCE(?, Nombre), place.Descripcion=COALESCE(?, Descripcion), place.Foto=COALESCE(?, Foto),place.tieneLibro=COALESCE(?, tieneLibro) WHERE (Lugar_id = ?);`,
             [
             data.Nombre,
@@ -60,7 +70,7 @@ module.exports = {
         );
     },
     deletePlace: (data, callBack) => {
-    pool.query(
+        pool.query(
             `DELETE FROM robinbook.Lugares WHERE (Lugar_id = ?);`,
             [data.Lugar_id],
             (error, results, fields) => {
@@ -69,6 +79,58 @@ module.exports = {
             }
             console.log(results[0]);
             return callBack(null, results);
+            }
+        );
+    },
+    createComent: (data,callback) => {
+        pool.query(
+            'INSERT INTO robinbook.ComentLugar (id_Lugar, id_User, Coment) VALUES (?,?,?);',
+            [
+            data.id_Lugar,
+            data.id_User,
+            data.Coment
+            ], (error, results, fields) =>{
+            if(error){
+                callback(error);
+            }
+                pool.query(
+                    'UPDATE robinbook.Users SET ranking = ranking + 10 WHERE user_id = ?;',
+                    [
+                    data.user_id
+                    ], (error, results, fields) =>{
+                    if(error){
+                        callback(error);
+                    }
+                    return callback(null,results);
+                    }
+                );
+            }
+        );
+    },
+    getPlaceFav: (user_id, callBack) => {
+        pool.query(
+            `SELECT * FROM robinbook.LugaresFav WHERE id_User = ?;`,
+            [user_id],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results);
+            }
+        );
+    },
+    insertPlaceFav: (data, callBack) => {
+        pool.query(
+            'INSERT INTO robinbook.LugaresFav (id_User, id_Lugar) VALUES (?,?);',
+            [
+            data.id_User,
+            data.id_Lugar
+            ],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results[0]);
             }
         );
     }
