@@ -5,7 +5,10 @@ const {
   getBookById,
   createBook,
   updateBook,
-  deleteBook
+  deleteBook,
+  createComent,
+  getBookFav,
+  insertBookFav
 } = require("./book.controller");
 
 router.get("/", checkToken, getBooks);
@@ -14,5 +17,8 @@ router.patch("/", checkToken, updateBook);
 router.delete("/", checkToken, deleteBook);
 
 router.post("/new", checkToken,createBook);
+router.post("/coment", checkToken, createComent);
+router.get("/fav/:id", checkToken, getBookFav);
+router.post("/newfav", checkToken, insertBookFav);
 
 module.exports = router;
