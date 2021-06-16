@@ -71,5 +71,21 @@ module.exports = {
             return callBack(null, results);
             }
         );
+    },
+    createComent: (data,callback) => {
+        pool.query(
+            'INSERT INTO robinbook.Lugares (Nombre, Descripcion, Foto, tieneLibro) VALUES (?,?,?,?);',
+            [
+            data.Nombre,
+            data.Descripcion,
+            data.Foto,
+            data.tieneLibro
+            ], (error, results, fields) =>{
+            if(error){
+                callback(error);
+            }
+            return callback(null,results);
+            }
+        );
     }
 };

@@ -5,7 +5,8 @@ const {
   getPlaceById,
   createPlace,
   updatePlace,
-  deletePlace
+  deletePlace,
+  createComent
 } = require("./place.controller");
 
 router.get("/", checkToken, getPlaces);
@@ -13,6 +14,7 @@ router.get("/:id", checkToken, getPlaceById);
 router.patch("/", checkToken, updatePlace);
 router.delete("/", checkToken, deletePlace);
 
-router.post("/new", createPlace);
+router.post("/new", checkToken, createPlace);
+router.post("/coment", checkToken, createComent);
 
 module.exports = router;
