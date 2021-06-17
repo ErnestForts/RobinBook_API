@@ -1,10 +1,12 @@
 var {createTransport} = require("nodemailer");
+const dotenv = require('dotenv');
+dotenv.config()
 
 var transporter = createTransport({
     service: 'gmail',
     auth: {
-      user: "robinbooknotch@gmail.com", 
-      pass: "fyrbyciqodmabvua",
+      user: process.env.mailerUser, 
+      pass: process.env.mailPassword,
     }
   });
 

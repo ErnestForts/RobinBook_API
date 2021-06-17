@@ -32,7 +32,6 @@ const saltRounds = 10;
     },
     login: (req, res) => {
       const body = req.body;
-      console.log(body.Email);
       getUserByUserEmail(body.Email, (err, results) => {
         if (err) {
           console.log(err);
@@ -137,7 +136,6 @@ const saltRounds = 10;
           message: "Email is required!"
         });
       }
-      const message = 'Check your email for a link to reset your password';
       let verificationLink;
       let emailStatus = 'OK';
 
@@ -161,10 +159,10 @@ const saltRounds = 10;
         results.resetToken = jsontoken;
         //send mail
         transporter.sendMail({
-          from: '<robinbooknotch@gmail.com>', // sender address
-          to: results.Email, // list of receivers
-          subject: "Forgot Password", // Subject line
-          html: `<b>Porfavor entra en el siguiente enlce para completar el proceso: </b><a href="${verificationLink}">Link recuperacion!</a>`, // html body
+          from: '<robinbooknotch@gmail.com>',
+          to: results.Email, 
+          subject: "Forgot Password", 
+          html: `<b>Porfavor entra en el siguiente enlce para completar el proceso: </b><a href="${verificationLink}">Link recuperacion!</a>`,
         });
 
         updateUser(results,results.user_id, (err,results) => {
