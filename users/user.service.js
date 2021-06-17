@@ -81,18 +81,5 @@ module.exports = {
         return callBack(null, results);
         }
     );
-    },
-    forgotPassword:(data, callBack) => {
-        pool.query(
-            `delete from robinbook.Users where user_id = ?`,
-            [data.id],
-            (error, results, fields) => {
-            if (error) {
-                callBack(error);
-            }
-            console.log(results[0]);
-            return callBack(null, results);
-            }
-        );
     }
 };

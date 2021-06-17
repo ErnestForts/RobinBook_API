@@ -4,11 +4,11 @@ const {
     getUserByUserId,
     getUsers,
     updateUser,
-    deleteUser,
-    forgotPassword
+    deleteUser
   } = require("./user.service");
   const { hashSync, genSaltSync, compareSync } = require("bcrypt");
   const { sign, verify } = require("jsonwebtoken");
+  const transporter = require('../_helpers/mailer');
 
 const saltRounds = 10;
   
@@ -46,7 +46,7 @@ const saltRounds = 10;
         const result = compareSync(body.Password, results.Password);
         if (result) {
           results.Password = undefined;
-          const jsontoken = sign({ result: results }, "aA/dj0Z8GmCZnIViFM4pmDpg1mgtit96TnVZWLkvLns=", {
+          const jsontoken = sign({ result: results }, process.env.secret, {
             expiresIn: "12h"
           });
           return res.json({
@@ -152,20 +152,27 @@ const saltRounds = 10;
           });
         }
         
-        const jsontoken = sign({ result: results }, "aA/dj0Z8GmCZnIViFM4pmDpg1mgtit96TnVZWLkvLns=", {
+        const jsontoken = sign({ result: results }, process.env.secret, {
           expiresIn: "10m"
         });
 
-        verificationLink = `http://localhost:4000/new-password/${jsontoken}`;
+        verificationLink = `http://localhost:4200/new-password/${jsontoken}`;
 
         results.resetToken = jsontoken;
+        //send mail
+        transporter.sendMail({
+          from: '<robinbooknotch@gmail.com>', // sender address
+          to: results.Email, // list of receivers
+          subject: "Forgot Password", // Subject line
+          html: `<b>Porfavor entra en el siguiente enlce para completar el proceso: </b><a href="${verificationLink}">Link recuperacion!</a>`, // html body
+        });
 
         updateUser(results,results.user_id, (err,results) => {
           if (err) {
             console.log(err);
             return;
           }
-          return res.json({verificationLink}); 
+          return res.json({emailStatus}); 
         })
       });
     },
@@ -180,7 +187,7 @@ const saltRounds = 10;
       }
 
       try{
-        jwtPayload = verify(resetToken,"aA/dj0Z8GmCZnIViFM4pmDpg1mgtit96TnVZWLkvLns=");
+        jwtPayload = verify(resetToken,process.env.secret);
       }catch(error){
         return res.status(201).json({message: 'wrong token: '+error})
       }
