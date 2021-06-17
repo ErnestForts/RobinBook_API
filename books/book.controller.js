@@ -7,7 +7,8 @@ const {
   createComent,
   insertBookFav,
   getBookFav,
-  getComent
+  getComent,
+  puntuarLibro
   } = require("./book.service");
   
   module.exports = {
@@ -165,5 +166,21 @@ const {
           data: results
         });
       })
+    },
+    puntuarLibro: (req, res) => {
+      const body = req.body;
+      puntuarLibro(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      });
     }
   };

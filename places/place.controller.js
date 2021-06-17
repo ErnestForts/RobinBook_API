@@ -7,7 +7,8 @@ const {
   createComent,
   insertPlaceFav,
   getPlaceFav,
-  getComent
+  getComent,
+  puntuarLugar
   } = require("./place.service");
   
   module.exports = {
@@ -163,5 +164,21 @@ const {
           data: results
         });
       })
+    },
+    puntuarLugar: (req, res) => {
+      const body = req.body;
+      puntuarLugar(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      });
     }
   };

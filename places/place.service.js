@@ -147,5 +147,35 @@ module.exports = {
             return callBack(null, results[0]);
             }
         );
+    },
+    puntuarLugar: (data,callback) => {
+        pool.query(
+            'UPDATE robinbook.Lugares SET VecesPuntuado = VecesPuntuado + 1 WHERE Lugar_id = ?;',
+            [data.lugar_id], (error, results, fields) =>{
+            if(error){
+                callback(error);
+            }
+                pool.query(
+                    'UPDATE robinbook.Lugares SET PuntosTotales = PuntosTotales + ? WHERE Lugar_id = ?;',
+                    [
+                    data.numEstrellas,
+                    data.lugar_id
+                    ], (error, results, fields) =>{
+                    if(error){
+                        callback(error);
+                    }
+                        pool.query(
+                            'UPDATE robinbook.Users SET ranking = ranking + 5 WHERE user_id = ?;',
+                            [data.user_id], (error, results, fields) =>{
+                            if(error){
+                                callback(error);
+                            }
+                            return callback(null,results);
+                            }
+                        );
+                    }
+                );
+            }
+        );
     }
 };
