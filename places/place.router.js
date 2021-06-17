@@ -8,7 +8,8 @@ const {
   deletePlace,
   createComent,
   getPlaceFav,
-  insertPlaceFav
+  insertPlaceFav,
+  getComent
 } = require("./place.controller");
 
 router.get("/", checkToken, getPlaces);
@@ -18,6 +19,7 @@ router.delete("/", checkToken, deletePlace);
 
 router.post("/new", checkToken, createPlace);
 router.post("/coment", checkToken, createComent);
+router.get("/coment/:id", checkToken, getComent);
 router.get("/fav/:id", checkToken, getPlaceFav);
 router.post("/newfav", checkToken, insertPlaceFav);
 

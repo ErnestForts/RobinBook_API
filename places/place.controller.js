@@ -6,7 +6,8 @@ const {
   deletePlace,
   createComent,
   insertPlaceFav,
-  getPlaceFav
+  getPlaceFav,
+  getComent
   } = require("./place.service");
   
   module.exports = {
@@ -102,6 +103,26 @@ const {
           });
         }
         return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    getComent: (req, res) => {
+      const id = req.params.id;
+      getComent(id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record not Found"
+          });
+        }
+        results.password = undefined;
+        return res.json({
           success: 1,
           data: results
         });
