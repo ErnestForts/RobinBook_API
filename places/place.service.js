@@ -27,12 +27,14 @@ module.exports = {
     },
     createPlace: (data,callback) => {
         pool.query(
-            'INSERT INTO robinbook.Lugares (Nombre, Descripcion, Foto, tieneLibro) VALUES (?,?,?,?);',
+            'INSERT INTO robinbook.Lugares (Nombre, Descripcion, Foto, tieneLibro, latitud, longitud) VALUES (?,?,?,?);',
             [
             data.Nombre,
             data.Descripcion,
             data.Foto,
-            data.tieneLibro
+            data.tieneLibro,
+            data.latitud,
+            data.longitud
             ], (error, results, fields) =>{
             if(error){
                 callback(error);
