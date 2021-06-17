@@ -109,7 +109,7 @@ module.exports = {
     },
     getBookFav: (user_id, callBack) => {
         pool.query(
-            `SELECT * FROM robinbook.LibrosFav WHERE id_User = ?;`,
+            'SELECT * FROM robinbook.Libros JOIN LibrosFav ON (LibrosFav.id_Libro = Libros.libro_id) WHERE LibrosFav.id_User = ?;',
             [user_id],
             (error, results, fields) => {
             if (error) {

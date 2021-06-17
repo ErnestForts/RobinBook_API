@@ -111,7 +111,7 @@ module.exports = {
     },
     getPlaceFav: (user_id, callBack) => {
         pool.query(
-            `SELECT * FROM robinbook.LugaresFav WHERE id_User = ?;`,
+            'SELECT * FROM robinbook.Lugares JOIN LugaresFav ON (LugaresFav.id_Lugar = Lugares.lugar_id) WHERE LugaresFav.id_User = ?;',
             [user_id],
             (error, results, fields) => {
             if (error) {
