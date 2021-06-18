@@ -7,6 +7,7 @@ const {
   createComent,
   insertBookFav,
   getBookFav,
+  deleteBookFav,
   getComent,
   puntuarLibro
   } = require("./book.service");
@@ -91,7 +92,7 @@ const {
         }
         return res.json({
           success: 1,
-          message: "place deleted successfully"
+          message: "Book deleted successfully"
         });
       });
     },
@@ -166,6 +167,27 @@ const {
           data: results
         });
       })
+    },
+    deleteBookFav: (req, res) => {
+      const data = req.body;
+      console.log(data);
+      deleteBookFav(data, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(results);
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record Not Found"
+          });
+        }
+        return res.json({
+          success: 1,
+          message: "Book deleted favorite successfully"
+        });
+      });
     },
     puntuarLibro: (req, res) => {
       const body = req.body;

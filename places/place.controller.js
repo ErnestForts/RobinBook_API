@@ -7,6 +7,7 @@ const {
   createComent,
   insertPlaceFav,
   getPlaceFav,
+  deletePlaceFav,
   getComent,
   puntuarLugar
   } = require("./place.service");
@@ -164,6 +165,27 @@ const {
           data: results
         });
       })
+    },
+    deletePlaceFav: (req, res) => {
+      const data = req.body;
+      console.log(data);
+      deletePlaceFav(data, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(results);
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record Not Found"
+          });
+        }
+        return res.json({
+          success: 1,
+          message: "Deleted place from your favorite, successfully"
+        });
+      });
     },
     puntuarLugar: (req, res) => {
       const body = req.body;

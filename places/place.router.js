@@ -9,6 +9,7 @@ const {
   createComent,
   getPlaceFav,
   insertPlaceFav,
+  deletePlaceFav,
   getComent,
   puntuarLugar
 } = require("./place.controller");
@@ -23,6 +24,7 @@ router.post("/coment", checkToken, createComent);
 router.get("/coment/:id", checkToken, getComent);
 router.get("/fav/:id", checkToken, getPlaceFav);
 router.post("/newfav", checkToken, insertPlaceFav);
+router.delete("/deletefav", checkToken, deletePlaceFav);
 router.post("/puntuar", checkToken, puntuarLugar);
 
 module.exports = router;

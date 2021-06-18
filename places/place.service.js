@@ -148,6 +148,22 @@ module.exports = {
             }
         );
     },
+    deletePlaceFav: (data, callBack) => {
+        pool.query(
+                'DELETE FROM robinbook.LugaresFav WHERE id_User=? AND id_Lugar=?;',
+                [
+                data.id_User,
+                data.id_Lugar
+                ],
+                (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                console.log(results[0]);
+                return callBack(null, results);
+                }
+            );
+        },
     puntuarLugar: (data,callback) => {
         pool.query(
             'UPDATE robinbook.Lugares SET VecesPuntuado = VecesPuntuado + 1 WHERE Lugar_id = ?;',

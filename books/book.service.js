@@ -146,6 +146,22 @@ module.exports = {
             }
         );
     },
+    deleteBookFav: (data, callBack) => {
+        pool.query(
+                'DELETE FROM robinbook.LibrosFav WHERE id_User=? AND id_Libro=?;',
+                [
+                data.id_User,
+                data.id_Libro
+                ],
+                (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                console.log(results[0]);
+                return callBack(null, results);
+                }
+            );
+        },
     puntuarLibro: (data,callback) => {
         pool.query(
             'UPDATE robinbook.Libros SET VecesPuntuado = VecesPuntuado + 1 WHERE libro_id = ?;',

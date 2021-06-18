@@ -9,6 +9,7 @@ const {
   createComent,
   getBookFav,
   insertBookFav,
+  deleteBookFav,
   getComent,
   puntuarLibro
 } = require("./book.controller");
@@ -23,6 +24,7 @@ router.post("/coment", checkToken, createComent);
 router.get("/coment/:id", checkToken, getComent);
 router.get("/fav/:id", checkToken, getBookFav);
 router.post("/newfav", checkToken, insertBookFav);
+router.delete("/deletefav", checkToken, deleteBookFav);
 router.post("/puntuar", checkToken, puntuarLibro);
 
 module.exports = router;
