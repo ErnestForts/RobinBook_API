@@ -11,6 +11,7 @@ const {
   insertBookFav,
   deleteBookFav,
   getComent,
+  likeComent,
   puntuarLibro
 } = require("./book.controller");
 
@@ -22,6 +23,7 @@ router.delete("/", checkToken, deleteBook);
 router.post("/new", checkToken, createBook);
 router.post("/coment", checkToken, createComent);
 router.get("/coment/:id", checkToken, getComent);
+router.post("/like", checkToken, likeComent);
 router.get("/fav/:id", checkToken, getBookFav);
 router.post("/newfav", checkToken, insertBookFav);
 router.delete("/deletefav", checkToken, deleteBookFav);

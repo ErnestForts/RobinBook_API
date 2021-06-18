@@ -121,6 +121,21 @@ module.exports = {
             }
         );
     },
+    likeComent: (data, callBack) => {
+        pool.query(
+            'UPDATE robinbook.ComentLugar SET LikeComent = LikeComent + 1 WHERE id_User = ? AND id_Lugar = ?;',
+            [
+            data.id_User,
+            data.id_Lugar
+            ],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results[0]);
+            }
+        );
+    },
     getPlaceFav: (user_id, callBack) => {
         pool.query(
             'SELECT * FROM robinbook.Lugares JOIN LugaresFav ON (LugaresFav.id_Lugar = Lugares.lugar_id) WHERE LugaresFav.id_User = ?;',
