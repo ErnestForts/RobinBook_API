@@ -9,6 +9,7 @@ const {
   getBookFav,
   deleteBookFav,
   getComent,
+  likeComent,
   puntuarLibro
   } = require("./book.service");
   
@@ -129,6 +130,19 @@ const {
         return res.json({
           success: 1,
           data: results
+        });
+      });
+    },
+    likeComent: (req, res) => {
+      const body = req.body;
+      likeComent(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        return res.json({
+          success: 1,
+          message: "like updated successfully"
         });
       });
     },
