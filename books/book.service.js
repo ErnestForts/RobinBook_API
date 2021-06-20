@@ -27,12 +27,13 @@ module.exports = {
     },
     createBook: (data,callback) => {
         pool.query(
-            'INSERT INTO robinbook.Libros (Titulo, Autor, Descripcion, Foto) VALUES (?,?,?,?);',
+            'INSERT INTO robinbook.Libros (Titulo, Autor, Descripcion, Foto, Genero) VALUES (?,?,?,?,?);',
             [
             data.Titulo,
             data.Autor,
             data.Descripcion,
-            data.Foto
+            data.Foto,
+            data.Genero
             ], (error, results, fields) =>{
             if(error){
                 callback(error);
