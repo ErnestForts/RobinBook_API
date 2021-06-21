@@ -46,9 +46,9 @@ module.exports = {
         }
     );
     },
-    updateUser: (data,user_id, callBack) => {
+    updateUser: (data, callBack) => {
     pool.query(
-        `update robinbook.Users set Nombre = COALESCE(?, Nombre), Apellido= COALESCE(?, Apellido), Email= COALESCE(?, Email), Password= COALESCE(?, Password), Telefono= COALESCE(?, Telefono), Foto= COALESCE(?, Foto), Frase= COALESCE(?, Frase),Ranking= COALESCE(?, Ranking),resetToken= COALESCE(?, resetToken) where user_id = ?`,
+        `update robinbook.Users set Nombre=?, Apellido=?, Email=?, Password=?, Telefono=?, Foto=?, Frase=?,Ranking=? where user_id = ?`,
         [
         data.Nombre,
         data.Apellido,
@@ -57,9 +57,8 @@ module.exports = {
         data.Telefono,
         data.Foto,
         data.Frase,
-        data.Ranking,
-        data.resetToken,
-        user_id
+        datad.Ranking
+
         ],
         (error, results, fields) => {
         if (error) {
