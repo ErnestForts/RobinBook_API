@@ -7,8 +7,10 @@ const {
   createComent,
   insertBookFav,
   getBookFav,
+  deleteBookFav,
   getComent,
-  getBookScore
+  likeComent,
+  puntuarLibro
   } = require("./book.service");
   
   module.exports = {
@@ -91,7 +93,7 @@ const {
         }
         return res.json({
           success: 1,
-          message: "place deleted successfully"
+          message: "Book deleted successfully"
         });
       });
     },
@@ -108,6 +110,39 @@ const {
         return res.status(200).json({
           success: 1,
           data: results
+        });
+      });
+    },
+    getComent: (req, res) => {
+      const id = req.params.id;
+      getComent(id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record not Found"
+          });
+        }
+        results.password = undefined;
+        return res.json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    likeComent: (req, res) => {
+      const body = req.body;
+      likeComent(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        return res.json({
+          success: 1,
+          message: "like updated successfully"
         });
       });
     },
@@ -147,21 +182,38 @@ const {
         });
       })
     },
-    getBookScore: (req,res) => {
-      const id = req.params.id;
-      getBookScore(id, (err, results) => {
+    deleteBookFav: (req, res) => {
+      const data = req.body;
+      console.log(data);
+      deleteBookFav(data, (err, results) => {
         if (err) {
           console.log(err);
           return;
         }
+        console.log(results);
         if (!results) {
           return res.json({
             success: 0,
-            message: "Book not Found"
+            message: "Record Not Found"
           });
         }
-        results.password = undefined;
         return res.json({
+          success: 1,
+          message: "Book deleted favorite successfully"
+        });
+      });
+    },
+    puntuarLibro: (req, res) => {
+      const body = req.body;
+      puntuarLibro(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
           success: 1,
           data: results
         });
