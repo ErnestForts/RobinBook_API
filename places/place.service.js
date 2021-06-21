@@ -192,16 +192,28 @@ module.exports = {
                     data.numEstrellas,
                     data.lugar_id
                     ], (error, results, fields) =>{
-                    if(error){
-                        callback(error);
-                    }
+                        if(error){
+                            callback(error);
+                        }
                         pool.query(
-                            'UPDATE robinbook.Users SET ranking = ranking + 5 WHERE user_id = ?;',
-                            [data.user_id], (error, results, fields) =>{
-                            if(error){
-                                callback(error);
-                            }
-                            return callback(null,results);
+                            'INSERT INTO robinbook.ValorarLugar (id_Lugar, id_User) VALUES (?,?);',
+                            [
+                            data.id_Lugar,
+                            data.id_User
+                            ], (error, results, fields) =>{
+                                if(error){
+                                    callback(error);
+                                }
+
+                                pool.query(
+                                    'UPDATE robinbook.Users SET ranking = ranking + 5 WHERE user_id = ?;',
+                                    [data.user_id], (error, results, fields) =>{
+                                    if(error){
+                                        callback(error);
+                                    }
+                                    return callback(null,results);
+                                    }
+                                );
                             }
                         );
                     }

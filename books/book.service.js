@@ -182,25 +182,36 @@ module.exports = {
         pool.query(
             'UPDATE robinbook.Libros SET VecesPuntuado = VecesPuntuado + 1 WHERE libro_id = ?;',
             [data.libro_id], (error, results, fields) =>{
-            if(error){
-                callback(error);
-            }
+                if(error){
+                    callback(error);
+                }
                 pool.query(
                     'UPDATE robinbook.Libros SET PuntosTotales = PuntosTotales + ? WHERE libro_id = ?;',
                     [
                     data.numEstrellas,
                     data.libro_id
                     ], (error, results, fields) =>{
-                    if(error){
-                        callback(error);
-                    }
-                        pool.query(
-                            'UPDATE robinbook.Users SET ranking = ranking + 5 WHERE user_id = ?;',
-                            [data.user_id], (error, results, fields) =>{
-                            if(error){
-                                callback(error);
-                            }
-                            return callback(null,results);
+                        if(error){
+                            callback(error);
+                        }
+                            pool.query(
+                                'INSERT INTO robinbook.ValorarLibro (id_Libro, id_User) VALUES (?,?);',
+                                [
+                                data.id_Libro,
+                                data.id_User
+                                ], (error, results, fields) =>{
+                                    if(error){
+                                        callback(error);
+                                    }
+                                pool.query(
+                                    'UPDATE robinbook.Users SET ranking = ranking + 5 WHERE user_id = ?;',
+                                    [data.user_id], (error, results, fields) =>{
+                                        if(error){
+                                            callback(error);
+                                        }
+                                        return callback(null,results);
+                                    }
+                                );
                             }
                         );
                     }
