@@ -109,36 +109,9 @@ module.exports = {
             }
         );
     },
-    getComent: (libro_id, callBack) => {
-        pool.query(
-            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLugar.Coment FROM robinbook.Users JOIN ComentLugar ON (ComentLugar.id_User = Users.user_id) JOIN Lugares ON (Lugares.Lugar_id = ComentLugar.id_Lugar) WHERE id_Lugar = ?;`,
-            [libro_id],
-            (error, results, fields) => {
-            if (error) {
-                callBack(error);
-            }
-            return callBack(null, results);
-            }
-        );
-    },
-    likeComent: (data, callBack) => {
-        pool.query(
-            'UPDATE robinbook.ComentLugar SET LikeComent = LikeComent + 1 WHERE id_User = ? AND id_Lugar = ?;',
-            [
-            data.id_User,
-            data.id_Lugar
-            ],
-            (error, results, fields) => {
-            if (error) {
-                callBack(error);
-            }
-            return callBack(null, results[0]);
-            }
-        );
-    },
     getPlaceFav: (user_id, callBack) => {
         pool.query(
-            'SELECT * FROM robinbook.Lugares JOIN LugaresFav ON (LugaresFav.id_Lugar = Lugares.lugar_id) WHERE LugaresFav.id_User = ?;',
+            `SELECT * FROM robinbook.LugaresFav WHERE id_User = ?;`,
             [user_id],
             (error, results, fields) => {
             if (error) {
@@ -162,7 +135,8 @@ module.exports = {
             return callBack(null, results[0]);
             }
         );
-
+<<<<<<< Updated upstream
+=======
     },
     deletePlaceFav: (data, callBack) => {
         pool.query(
@@ -221,6 +195,6 @@ module.exports = {
             return callBack(null, results);
             }
         );
-
+>>>>>>> Stashed changes
     }
 };

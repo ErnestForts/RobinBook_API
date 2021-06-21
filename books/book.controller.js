@@ -6,13 +6,16 @@ const {
   deleteBook,
   createComent,
   insertBookFav,
+<<<<<<< Updated upstream
+  getBookFav
+=======
   getBookFav,
   deleteBookFav,
   getComent,
   likeComent,
   puntuarLibro,
-  getPuntuaciones,
-  
+  getPuntuaciones
+>>>>>>> Stashed changes
   } = require("./book.service");
   
   module.exports = {
@@ -95,7 +98,7 @@ const {
         }
         return res.json({
           success: 1,
-          message: "Book deleted successfully"
+          message: "place deleted successfully"
         });
       });
     },
@@ -112,39 +115,6 @@ const {
         return res.status(200).json({
           success: 1,
           data: results
-        });
-      });
-    },
-    getComent: (req, res) => {
-      const id = req.params.id;
-      getComent(id, (err, results) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        if (!results) {
-          return res.json({
-            success: 0,
-            message: "Record not Found"
-          });
-        }
-        results.password = undefined;
-        return res.json({
-          success: 1,
-          data: results
-        });
-      });
-    },
-    likeComent: (req, res) => {
-      const body = req.body;
-      likeComent(body, (err, results) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        return res.json({
-          success: 1,
-          message: "like updated successfully"
         });
       });
     },
@@ -183,6 +153,8 @@ const {
           data: results
         });
       })
+<<<<<<< Updated upstream
+=======
     },
     deleteBookFav: (req, res) => {
       const data = req.body;
@@ -240,5 +212,6 @@ const {
           data: results
         });
       });
+>>>>>>> Stashed changes
     }
   };

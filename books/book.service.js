@@ -27,13 +27,12 @@ module.exports = {
     },
     createBook: (data,callback) => {
         pool.query(
-            'INSERT INTO robinbook.Libros (Titulo, Autor, Descripcion, Foto, Genero) VALUES (?,?,?,?,?);',
+            'INSERT INTO robinbook.Libros (Titulo, Autor, Descripcion, Foto) VALUES (?,?,?,?);',
             [
             data.Titulo,
             data.Autor,
             data.Descripcion,
-            data.Foto,
-            data.Genero
+            data.Foto
             ], (error, results, fields) =>{
             if(error){
                 callback(error);
@@ -108,36 +107,9 @@ module.exports = {
             }
         );
     },
-    getComent: (libro_id, callBack) => {
-        pool.query(
-            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLibro.Coment FROM robinbook.Users JOIN ComentLibro ON (ComentLibro.id_User = Users.user_id) JOIN Libros ON (Libros.libro_id = ComentLibro.id_Libro) WHERE id_Libro = ?;`,
-            [libro_id],
-            (error, results, fields) => {
-            if (error) {
-                callBack(error);
-            }
-            return callBack(null, results);
-            }
-        );
-    },
-    likeComent: (data, callBack) => {
-        pool.query(
-            'UPDATE robinbook.ComentLibro SET LikeComent = LikeComent + 1 WHERE id_User = ? AND id_Libro = ?;',
-            [
-            data.id_User,
-            data.id_Lugar
-            ],
-            (error, results, fields) => {
-            if (error) {
-                callBack(error);
-            }
-            return callBack(null, results[0]);
-            }
-        );
-    },
     getBookFav: (user_id, callBack) => {
         pool.query(
-            'SELECT * FROM robinbook.Libros JOIN LibrosFav ON (LibrosFav.id_Libro = Libros.libro_id) WHERE LibrosFav.id_User = ?;',
+            `SELECT * FROM robinbook.LibrosFav WHERE id_User = ?;`,
             [user_id],
             (error, results, fields) => {
             if (error) {
@@ -161,6 +133,8 @@ module.exports = {
             return callBack(null, results[0]);
             }
         );
+<<<<<<< Updated upstream
+=======
     },
     deleteBookFav: (data, callBack) => {
         pool.query(
@@ -178,22 +152,6 @@ module.exports = {
             }
         );
     },
-    deleteBookFav: (data, callBack) => {
-        pool.query(
-                'DELETE FROM robinbook.LibrosFav WHERE id_User=? AND id_Libro=?;',
-                [
-                data.id_User,
-                data.id_Libro
-                ],
-                (error, results, fields) => {
-                if (error) {
-                    callBack(error);
-                }
-                console.log(results[0]);
-                return callBack(null, results);
-                }
-            );
-        },
     puntuarLibro: (data,callback) => {
         pool.query(
             'UPDATE robinbook.Libros SET VecesPuntuado = VecesPuntuado + 1 WHERE libro_id = ?;',
@@ -235,6 +193,6 @@ module.exports = {
             return callBack(null, results);
             }
         );
-
+>>>>>>> Stashed changes
     }
 };
