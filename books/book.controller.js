@@ -6,7 +6,16 @@ const {
   deleteBook,
   createComent,
   insertBookFav,
+<<<<<<< Updated upstream
   getBookFav
+=======
+  getBookFav,
+  deleteBookFav,
+  getComent,
+  likeComent,
+  puntuarLibro,
+  getPuntuaciones
+>>>>>>> Stashed changes
   } = require("./book.service");
   
   module.exports = {
@@ -144,5 +153,65 @@ const {
           data: results
         });
       })
+<<<<<<< Updated upstream
+=======
+    },
+    deleteBookFav: (req, res) => {
+      const data = req.body;
+      console.log(data);
+      deleteBookFav(data, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(results);
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record Not Found"
+          });
+        }
+        return res.json({
+          success: 1,
+          message: "Book deleted favorite successfully"
+        });
+      });
+    },
+    puntuarLibro: (req, res) => {
+      const body = req.body;
+      puntuarLibro(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    getPuntuaciones: (req, res) => {
+      const id = req.params.id;
+      getPuntuaciones(id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record not Found"
+          });
+        }
+        results.password = undefined;
+        return res.json({
+          success: 1,
+          data: results
+        });
+      });
+>>>>>>> Stashed changes
     }
   };

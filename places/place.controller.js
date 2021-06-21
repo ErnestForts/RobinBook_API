@@ -6,7 +6,16 @@ const {
   deletePlace,
   createComent,
   insertPlaceFav,
+<<<<<<< Updated upstream
   getPlaceFav
+=======
+  getPlaceFav,
+  deletePlaceFav,
+  getComent,
+  likeComent,
+  puntuarLugar,
+  getPuntuaciones
+>>>>>>> Stashed changes
   } = require("./place.service");
   
   module.exports = {
@@ -142,5 +151,65 @@ const {
           data: results
         });
       })
+<<<<<<< Updated upstream
+=======
+    },
+    deletePlaceFav: (req, res) => {
+      const data = req.body;
+      console.log(data);
+      deletePlaceFav(data, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(results);
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record Not Found"
+          });
+        }
+        return res.json({
+          success: 1,
+          message: "Deleted place from your favorite, successfully"
+        });
+      });
+    },
+    puntuarLugar: (req, res) => {
+      const body = req.body;
+      puntuarLugar(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    getPuntuaciones: (req, res) => {
+      const id = req.params.id;
+      getPuntuaciones(id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record not Found"
+          });
+        }
+        results.password = undefined;
+        return res.json({
+          success: 1,
+          data: results
+        });
+      });
+>>>>>>> Stashed changes
     }
   };
