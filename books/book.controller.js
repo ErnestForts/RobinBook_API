@@ -7,7 +7,8 @@ const {
   createComent,
   insertBookFav,
   getBookFav,
-  getComent
+  getComent,
+  getBookScore
   } = require("./book.service");
   
   module.exports = {
@@ -165,5 +166,25 @@ const {
           data: results
         });
       })
+    },
+    getBookScore: (req,res) => {
+      const id = req.params.id;
+      getBookScore(id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Book not Found"
+          });
+        }
+        results.password = undefined;
+        return res.json({
+          success: 1,
+          data: results
+        });
+      });
     }
   };

@@ -145,5 +145,17 @@ module.exports = {
             return callBack(null, results[0]);
             }
         );
+    },
+    getBookScore: (user_id, callBack) => {
+        pool.query(
+            'SELECT Titulo, (PuntosTotales/VecesPuntuado) as AVG_Score FROM robinbook.Libros where libro_id = ?;',
+            [user_id],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results[0]);
+            }
+        );
     }
 };
