@@ -111,26 +111,6 @@ const {
         });
       });
     },
-    getComent: (req, res) => {
-      const id = req.params.id;
-      getComent(id, (err, results) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        if (!results) {
-          return res.json({
-            success: 0,
-            message: "Record not Found"
-          });
-        }
-        results.password = undefined;
-        return res.json({
-          success: 1,
-          data: results
-        });
-      });
-    },
     getBookFav: (req, res) => {
       const id = req.params.id;
       getBookFav(id, (err, results) => {

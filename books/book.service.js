@@ -107,21 +107,9 @@ module.exports = {
             }
         );
     },
-    getComent: (libro_id, callBack) => {
-        pool.query(
-            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLibro.Coment FROM robinbook.Users JOIN ComentLibro ON (ComentLibro.id_User = Users.user_id) JOIN Libros ON (Libros.libro_id = ComentLibro.id_Libro) WHERE id_Libro = ?;`,
-            [libro_id],
-            (error, results, fields) => {
-            if (error) {
-                callBack(error);
-            }
-            return callBack(null, results);
-            }
-        );
-    },
     getBookFav: (user_id, callBack) => {
         pool.query(
-            'SELECT * FROM robinbook.Libros JOIN LibrosFav ON (LibrosFav.id_Libro = Libros.libro_id) WHERE LibrosFav.id_User = ?;',
+            `SELECT * FROM robinbook.LibrosFav WHERE id_User = ?;`,
             [user_id],
             (error, results, fields) => {
             if (error) {
