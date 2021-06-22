@@ -2,9 +2,9 @@ const {
   getChats,
   createChat,
   getchatsById,
+  createMensaje,
   updateBook,
   deleteBook,
-  createComent,
   insertBookFav,
   getBookFav,
   deleteBookFav,
@@ -64,6 +64,22 @@ const {
         });
       });
     },
+    createMensaje: (req, res) => {
+      const body = req.body;
+      createMensaje(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: results
+        });
+      });
+    },
     updateBook: (req, res) => {
       const body = req.body;
       updateBook(body, (err, results) => {
@@ -95,22 +111,6 @@ const {
         return res.json({
           success: 1,
           message: "Book deleted successfully"
-        });
-      });
-    },
-    createComent: (req, res) => {
-      const body = req.body;
-      createComent(body, (err, results) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({
-            success: 0,
-            message: err
-          });
-        }
-        return res.status(200).json({
-          success: 1,
-          data: results
         });
       });
     },

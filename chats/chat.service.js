@@ -49,6 +49,31 @@ module.exports = {
             }
         );
     },
+    createMensaje: (data,callback) => {
+        pool.query(
+            'INSERT INTO robinbook.chatMensajes (id_mensajesRoom, mensaje, user_id) VALUES (?,?,?);',
+            [
+            data.id_mensajesRoom,
+            data.mensaje,
+            data.user_id
+            ], (error, results, fields) =>{
+            if(error){
+                callback(error);
+            }
+                pool.query(
+                    'UPDATE robinbook.Users SET ranking = ranking + 10 WHERE user_id = ?;',
+                    [
+                    data.user_id
+                    ], (error, results, fields) =>{
+                    if(error){
+                        callback(error);
+                    }
+                    return callback(null,results);
+                    }
+                );
+            }
+        );
+    },
     updateBook: (data, callBack) => {
     pool.query(
             'UPDATE robinbook.Libros AS book SET book.Titulo=COALESCE(?, Titulo), book.Autor=COALESCE(?, Autor), book.Descripcion=COALESCE(?, Descripcion), book.Foto=COALESCE(?, Foto) WHERE (libro_id = ?);',
@@ -77,31 +102,6 @@ module.exports = {
             }
             console.log(results[0]);
             return callBack(null, results);
-            }
-        );
-    },
-    createComent: (data,callback) => {
-        pool.query(
-            'INSERT INTO robinbook.ComentLibro (id_Libro, id_User, Coment) VALUES (?,?,?);',
-            [
-            data.id_Libro,
-            data.id_User,
-            data.Coment
-            ], (error, results, fields) =>{
-            if(error){
-                callback(error);
-            }
-                pool.query(
-                    'UPDATE robinbook.Users SET ranking = ranking + 10 WHERE user_id = ?;',
-                    [
-                    data.user_id
-                    ], (error, results, fields) =>{
-                    if(error){
-                        callback(error);
-                    }
-                    return callback(null,results);
-                    }
-                );
             }
         );
     },
