@@ -10,7 +10,8 @@ const {
   deleteBookFav,
   getComent,
   likeComent,
-  puntuarLibro
+  puntuarLibro,
+  getValorarLibro
   } = require("./book.service");
   const transporter = require('../_helpers/mailer');
   
@@ -230,5 +231,25 @@ const {
         html: `<p>Saludos de ${body.name}, usuario de la aplicación de <b>RobinBook</b> te ha recomendado el siguiente libro: ${body.title}!</p>`,
       });
       res.send({emailStatus});
+    },
+    getValorarLibro: (req, res) => {
+      const id = req.params.id;
+      getValorarLibro(id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record not Found"
+          });
+        }
+        results.password = undefined;
+        return res.json({
+          success: 1,
+          data: results
+        });
+      });
     }
   };
