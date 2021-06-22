@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { checkToken } = require("../_middleware/token.validation");
 const {
-  getBooks,
+  getChats,
   getBookById,
   createBook,
   updateBook,
@@ -17,7 +17,7 @@ const {
   getValorarLibro
 } = require("./book.controller");
 
-router.get("/", checkToken, getBooks);
+router.get("/", checkToken, getChats);
 router.get("/:id", checkToken, getBookById);
 router.patch("/", checkToken, updateBook);
 router.delete("/", checkToken, deleteBook);

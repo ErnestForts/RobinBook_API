@@ -3,7 +3,7 @@ var pool = require('../_helpers/db');
 module.exports = {
     getBooks: callBack => {
         pool.query(
-            `SELECT * FROM robinbook.Libros;`,
+            `SELECT * FROM robinbook.chatRooms;`,
             [],
             (error, results, fields) => {
             if (error) {
