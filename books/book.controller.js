@@ -1,5 +1,5 @@
 const {
-  getChats,
+  getBooks,
   getBookById,
   createBook,
   updateBook,
@@ -16,8 +16,8 @@ const {
   const transporter = require('../_helpers/mailer');
   
   module.exports = {
-    getChats: (req, res) => {
-      getChats((err, results) => {
+    getBooks: (req, res) => {
+      getBooks((err, results) => {
         if (err) {
           console.log(err);
           return;

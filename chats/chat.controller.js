@@ -1,7 +1,7 @@
 const {
-  getBooks,
+  getChats,
+  createChat,
   getBookById,
-  createBook,
   updateBook,
   deleteBook,
   createComent,
@@ -12,17 +12,34 @@ const {
   likeComent,
   puntuarLibro,
   getValorarLibro
-  } = require("./book.service");
+  } = require("./chat.service");
   const transporter = require('../_helpers/mailer');
   
   module.exports = {
-    getBooks: (req, res) => {
-      getBooks((err, results) => {
+    getChats: (req, res) => {
+      getChats((err, results) => {
         if (err) {
           console.log(err);
           return;
         }
         return res.json({
+          success: 1,
+          data: results
+        });
+      });
+    },
+    createChat: (req, res) => {
+      const body = req.body;
+      console.log(body.Nombre);
+      createChat(body, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: err
+          });
+        }
+        return res.status(200).json({
           success: 1,
           data: results
         });
@@ -43,23 +60,6 @@ const {
         }
         results.password = undefined;
         return res.json({
-          success: 1,
-          data: results
-        });
-      });
-    },
-    createBook: (req, res) => {
-      const body = req.body;
-      console.log(body.Nombre);
-      createBook(body, (err, results) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({
-            success: 0,
-            message: err
-          });
-        }
-        return res.status(200).json({
           success: 1,
           data: results
         });

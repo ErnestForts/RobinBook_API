@@ -1,7 +1,7 @@
 var pool = require('../_helpers/db');
 
 module.exports = {
-    getBooks: callBack => {
+    getChats: callBack => {
         pool.query(
             `SELECT * FROM robinbook.chatRooms;`,
             [],
@@ -13,27 +13,12 @@ module.exports = {
             }
         );
     },
-    getBookById: (libro_id, callBack) => {
+    createChat: (data,callback) => {
         pool.query(
-            `SELECT * FROM robinbook.Libros WHERE libro_id = ?;`,
-            [libro_id],
-            (error, results, fields) => {
-            if (error) {
-                callBack(error);
-            }
-            return callBack(null, results);
-            }
-        );
-    },
-    createBook: (data,callback) => {
-        pool.query(
-            'INSERT INTO robinbook.Libros (Titulo, Autor, Descripcion, Foto, Genero) VALUES (?,?,?,?,?);',
+            'INSERT INTO robinbook.chatRooms (user_id_origen, user_id_destino) VALUES (?,?);',
             [
-            data.Titulo,
-            data.Autor,
-            data.Descripcion,
-            data.Foto,
-            data.Genero
+            data.user_id_origen,
+            data.user_id_destino
             ], (error, results, fields) =>{
             if(error){
                 callback(error);
@@ -49,6 +34,18 @@ module.exports = {
                     return callback(null,results);
                     }
                 );
+            }
+        );
+    },
+    getBookById: (libro_id, callBack) => {
+        pool.query(
+            `SELECT * FROM robinbook.Libros WHERE libro_id = ?;`,
+            [libro_id],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results);
             }
         );
     },
