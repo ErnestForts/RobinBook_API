@@ -122,9 +122,9 @@ module.exports = {
     },
     likeComent: (data, callBack) => {
         pool.query(
-            'UPDATE robinbook.ComentLibro SET LikeComent = LikeComent + 1 WHERE id_User = ? AND id_ComentLibro = ?;',
+            'UPDATE robinbook.ComentLibro SET LikeComent = LikeComent + 1 WHERE id_Libro = ? AND id_ComentLibro = ?;',
             [
-            data.id_User,
+            data.id_Libro,
             data.id_ComentLibro
             ],
             (error, results, fields) => {
