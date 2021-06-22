@@ -111,7 +111,7 @@ module.exports = {
     },
     getComent: (libro_id, callBack) => {
         pool.query(
-            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLugar.Coment FROM robinbook.Users JOIN ComentLugar ON (ComentLugar.id_User = Users.user_id) JOIN Lugares ON (Lugares.Lugar_id = ComentLugar.id_Lugar) WHERE id_Lugar = ?;`,
+            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLugar.Coment, ComentLugar.id_ComentLugar, ComentLugar.LikeComent  FROM robinbook.Users JOIN ComentLugar ON (ComentLugar.id_User = Users.user_id) JOIN Lugares ON (Lugares.Lugar_id = ComentLugar.id_Lugar) WHERE id_Lugar = ?;`,
             [libro_id],
             (error, results, fields) => {
             if (error) {
@@ -123,10 +123,10 @@ module.exports = {
     },
     likeComent: (data, callBack) => {
         pool.query(
-            'UPDATE robinbook.ComentLugar SET LikeComent = LikeComent + 1 WHERE id_User = ? AND id_Lugar = ?;',
+            'UPDATE robinbook.ComentLugar SET LikeComent = LikeComent + 1 WHERE id_User = ? AND id_ComentLugar = ?;',
             [
             data.id_User,
-            data.id_Lugar
+            data.id_ComentLugar
             ],
             (error, results, fields) => {
             if (error) {
