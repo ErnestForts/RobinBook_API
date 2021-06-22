@@ -220,5 +220,17 @@ module.exports = {
                 );
             }
         );
+    },
+    getValorarLugar: (user_id, callBack) => {
+        pool.query(
+            'SELECT * FROM robinbook.ValorarLugar WHERE id_User = ?;',
+            [id_User],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results);
+            }
+        );
     }
 };

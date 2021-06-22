@@ -218,5 +218,17 @@ module.exports = {
                 );
             }
         );
+    },
+    getValorarLibro: (user_id, callBack) => {
+        pool.query(
+            'SELECT * FROM robinbook.ValorarLibro WHERE id_User = ?;',
+            [id_User],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results);
+            }
+        );
     }
 };
