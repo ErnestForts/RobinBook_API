@@ -5,12 +5,12 @@ const {
   createChat,
   getchatsById,
   createMensaje,
+  getMensaje,
   updateBook,
   deleteBook,
   getBookFav,
   insertBookFav,
   deleteBookFav,
-  getComent,
   likeComent,
   puntuarLibro,
   enviarMail,
@@ -24,7 +24,7 @@ router.get("/:id", checkToken, getchatsById);
 
 router.post("/new", checkToken, createChat);
 router.post("/mensaje", checkToken, createMensaje);
-// router.get("/mensaje/:id", checkToken, getComent);
+router.get("/mensaje/:id", checkToken, getMensaje);
 // router.post("/like", checkToken, likeComent);
 // router.get("/fav/:id", checkToken, getBookFav);
 // router.post("/newfav", checkToken, insertBookFav);

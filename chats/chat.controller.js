@@ -3,12 +3,12 @@ const {
   createChat,
   getchatsById,
   createMensaje,
+  getMensaje,
   updateBook,
   deleteBook,
   insertBookFav,
   getBookFav,
   deleteBookFav,
-  getComent,
   likeComent,
   puntuarLibro,
   getValorarLibro
@@ -80,6 +80,26 @@ const {
         });
       });
     },
+    getMensaje: (req, res) => {
+      const id = req.params.id;
+      getMensaje(id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record not Found"
+          });
+        }
+        results.password = undefined;
+        return res.json({
+          success: 1,
+          data: results
+        });
+      });
+    },
     updateBook: (req, res) => {
       const body = req.body;
       updateBook(body, (err, results) => {
@@ -111,26 +131,6 @@ const {
         return res.json({
           success: 1,
           message: "Book deleted successfully"
-        });
-      });
-    },
-    getComent: (req, res) => {
-      const id = req.params.id;
-      getComent(id, (err, results) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        if (!results) {
-          return res.json({
-            success: 0,
-            message: "Record not Found"
-          });
-        }
-        results.password = undefined;
-        return res.json({
-          success: 1,
-          data: results
         });
       });
     },

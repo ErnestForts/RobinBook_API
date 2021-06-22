@@ -74,6 +74,18 @@ module.exports = {
             }
         );
     },
+    getMensaje: (libro_id, callBack) => {
+        pool.query(
+            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLibro.Coment, ComentLibro.id_ComentLibro, ComentLibro.likeComent FROM robinbook.Users JOIN ComentLibro ON (ComentLibro.id_User = Users.user_id) JOIN Libros ON (Libros.libro_id = ComentLibro.id_Libro) WHERE id_Libro = ?;`,
+            [libro_id],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results);
+            }
+        );
+    },
     updateBook: (data, callBack) => {
     pool.query(
             'UPDATE robinbook.Libros AS book SET book.Titulo=COALESCE(?, Titulo), book.Autor=COALESCE(?, Autor), book.Descripcion=COALESCE(?, Descripcion), book.Foto=COALESCE(?, Foto) WHERE (libro_id = ?);',
@@ -101,18 +113,6 @@ module.exports = {
                 callBack(error);
             }
             console.log(results[0]);
-            return callBack(null, results);
-            }
-        );
-    },
-    getComent: (libro_id, callBack) => {
-        pool.query(
-            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLibro.Coment, ComentLibro.id_ComentLibro, ComentLibro.likeComent FROM robinbook.Users JOIN ComentLibro ON (ComentLibro.id_User = Users.user_id) JOIN Libros ON (Libros.libro_id = ComentLibro.id_Libro) WHERE id_Libro = ?;`,
-            [libro_id],
-            (error, results, fields) => {
-            if (error) {
-                callBack(error);
-            }
             return callBack(null, results);
             }
         );
