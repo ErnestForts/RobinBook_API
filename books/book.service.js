@@ -110,7 +110,7 @@ module.exports = {
     },
     getComent: (libro_id, callBack) => {
         pool.query(
-            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLibro.Coment, ComentLibro.id_ComentLibro FROM robinbook.Users JOIN ComentLibro ON (ComentLibro.id_User = Users.user_id) JOIN Libros ON (Libros.libro_id = ComentLibro.id_Libro) WHERE id_Libro = ?;`,
+            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLibro.Coment, ComentLibro.id_ComentLibro, ComentLibro.likeComent FROM robinbook.Users JOIN ComentLibro ON (ComentLibro.id_User = Users.user_id) JOIN Libros ON (Libros.libro_id = ComentLibro.id_Libro) WHERE id_Libro = ?;`,
             [libro_id],
             (error, results, fields) => {
             if (error) {
