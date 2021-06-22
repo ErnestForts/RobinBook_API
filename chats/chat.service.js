@@ -37,10 +37,10 @@ module.exports = {
             }
         );
     },
-    getBookById: (libro_id, callBack) => {
+    getchatsById: (user_id, callBack) => {
         pool.query(
-            `SELECT * FROM robinbook.Libros WHERE libro_id = ?;`,
-            [libro_id],
+            `SELECT * FROM robinbook.chatRooms WHERE user_id_origen = ? OR user_id_destino = ?;`,
+            [user_id, user_id],
             (error, results, fields) => {
             if (error) {
                 callBack(error);

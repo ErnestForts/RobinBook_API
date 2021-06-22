@@ -1,7 +1,7 @@
 const {
   getChats,
   createChat,
-  getBookById,
+  getchatsById,
   updateBook,
   deleteBook,
   createComent,
@@ -30,7 +30,6 @@ const {
     },
     createChat: (req, res) => {
       const body = req.body;
-      console.log(body.Nombre);
       createChat(body, (err, results) => {
         if (err) {
           console.log(err);
@@ -45,9 +44,9 @@ const {
         });
       });
     },
-    getBookById: (req, res) => {
+    getchatsById: (req, res) => {
       const id = req.params.id;
-      getBookById(id, (err, results) => {
+      getchatsById(id, (err, results) => {
         if (err) {
           console.log(err);
           return;

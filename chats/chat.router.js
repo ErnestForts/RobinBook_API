@@ -2,8 +2,8 @@ const router = require("express").Router();
 const { checkToken } = require("../_middleware/token.validation");
 const {
   getChats,
-  getBookById,
   createChat,
+  getchatsById,
   updateBook,
   deleteBook,
   createComent,
@@ -18,7 +18,7 @@ const {
 } = require("./chat.controller");
 
 router.get("/", checkToken, getChats);
-// router.get("/:id", checkToken, getBookById);
+router.get("/:id", checkToken, getchatsById);
 // router.patch("/", checkToken, updateBook);
 // router.delete("/", checkToken, deleteBook);
 
