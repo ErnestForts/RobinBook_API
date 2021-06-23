@@ -221,7 +221,7 @@ module.exports = {
             }
         );
     },
-    getValorarLugar: (user_id, callBack) => {
+    getValorarLugar: (id_User, callBack) => {
         pool.query(
             'SELECT * FROM robinbook.ValorarLugar WHERE id_User = ?;',
             [id_User],
