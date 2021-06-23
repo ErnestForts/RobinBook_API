@@ -3,7 +3,7 @@ var pool = require('../_helpers/db');
 module.exports = {
     getChats: callBack => {
         pool.query(
-            `SELECT * FROM robinbook.chatRooms;`,
+            'SELECT * FROM robinbook.chatRooms;',
             [],
             (error, results, fields) => {
             if (error) {
@@ -24,7 +24,7 @@ module.exports = {
                 callback(error);
             }
                 pool.query(
-                    'UPDATE robinbook.Users SET ranking = ranking + 20 WHERE user_id = ?;',
+                    'UPDATE robinbook.Users SET ranking = ranking + 10 WHERE user_id = ?;',
                     [
                     data.user_id
                     ], (error, results, fields) =>{
@@ -39,13 +39,13 @@ module.exports = {
     },
     getchatsById: (user_id, callBack) => {
         pool.query(
-            `SELECT * FROM robinbook.chatRooms WHERE user_id_origen = ? OR user_id_destino = ?;`,
-            [user_id, user_id],
+            `SELECT  chatRooms.id_chatRoom, chatRooms.user_id_origen, chatRooms.user_id_destino, Users.Nombre, Users.Email, Users.Foto FROM robinbook.chatRooms JOIN Users ON (chatRooms.user_id_destino = Users.user_id OR chatRooms.user_id_origen = Users.user_id AND Users.user_id != ?) WHERE user_id_origen = ? OR user_id_destino = ? AND Users.user_id != ?;`,
+            [user_id, user_id, user_id, user_id],
             (error, results, fields) => {
-            if (error) {
-                callBack(error);
-            }
-            return callBack(null, results);
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
             }
         );
     },
@@ -76,7 +76,7 @@ module.exports = {
     },
     getMensajes: (id_chatRoom, callBack) => {
         pool.query(
-            `SELECT chatRooms.id_chatRoom, chatRooms.user_id_origen, chatRooms.user_id_destino, chatMensajes.id_mensaje, chatMensajes.mensaje, chatMensajes.user_id FROM robinbook.chatRooms JOIN chatMensajes ON (chatRooms.id_chatRoom = chatMensajes.id_mensajesRoom) WHERE id_chatRoom = ?;`,
+            'SELECT chatRooms.id_chatRoom, chatRooms.user_id_origen, chatRooms.user_id_destino, chatMensajes.id_mensaje, chatMensajes.mensaje, chatMensajes.user_id FROM robinbook.chatRooms JOIN chatMensajes ON (chatRooms.id_chatRoom = chatMensajes.id_mensajesRoom) WHERE id_chatRoom = ?;',
             [id_chatRoom],
             (error, results, fields) => {
             if (error) {
@@ -88,7 +88,7 @@ module.exports = {
     },
     deleteMensaje: (data, callBack) => {
         pool.query(
-            "DELETE FROM robinbook.chatMensajes WHERE (id_mensaje = ?);",
+            'DELETE FROM robinbook.chatMensajes WHERE (id_mensaje = ?);',
             [data.id_mensaje],
             (error, results, fields) => {
             if (error) {
