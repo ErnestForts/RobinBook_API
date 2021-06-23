@@ -39,22 +39,13 @@ module.exports = {
     },
     getchatsById: (user_id, callBack) => {
         pool.query(
-            'SELECT  chatRooms.id_chatRoom, chatRooms.user_id_origen, chatRooms.user_id_destino, Users.Foto FROM robinbook.chatRooms JOIN Users ON (chatRooms.user_id_destino = Users.user_id) WHERE user_id_origen = ?;',
-            [user_id, user_id],
+            `SELECT  chatRooms.id_chatRoom, chatRooms.user_id_origen, chatRooms.user_id_destino, Users.Nombre, Users.Email, Users.Foto FROM robinbook.chatRooms JOIN Users ON (chatRooms.user_id_destino = Users.user_id OR chatRooms.user_id_origen = Users.user_id AND Users.user_id != ?) WHERE user_id_origen = ? OR user_id_destino = ? AND Users.user_id != ?;`,
+            [user_id, user_id, user_id, user_id],
             (error, results, fields) => {
                 if (error) {
                     callBack(error);
                 }
-                pool.query(
-                    'SELECT  chatRooms.id_chatRoom, chatRooms.user_id_origen, chatRooms.user_id_destino, Users.Foto FROM robinbook.chatRooms JOIN Users ON (chatRooms.user_id_origen = Users.user_id) WHERE user_id_destino = ?;',
-                    [user_id, user_id],
-                    (error, results, fields) => {
-                        if (error) {
-                            callBack(error);
-                        }
-                        return callBack(null, results);
-                    }
-                )
+                return callBack(null, results);
             }
         );
     },
