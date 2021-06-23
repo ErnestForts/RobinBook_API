@@ -31,6 +31,6 @@ router.post("/newfav", checkToken, insertBookFav);
 router.delete("/deletefav", checkToken, deleteBookFav);
 router.post("/puntuar", checkToken, puntuarLibro);
 router.post("/mail", checkToken, enviarMail);
-router.get("/valorar", checkToken, getValorarLibro);
+router.get("/valorar/:id", checkToken, getValorarLibro);
 
 module.exports = router;

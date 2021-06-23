@@ -29,6 +29,6 @@ router.get("/fav/:id", checkToken, getPlaceFav);
 router.post("/newfav", checkToken, insertPlaceFav);
 router.delete("/deletefav", checkToken, deletePlaceFav);
 router.post("/puntuar", checkToken, puntuarLugar);
-router.get("/valorar", checkToken, getValorarLugar);
+router.get("/valorar/:id", checkToken, getValorarLugar);
 
 module.exports = router;
