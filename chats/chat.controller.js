@@ -4,14 +4,8 @@ const {
   getchatsById,
   createMensaje,
   getMensajes,
-  updateBook,
-  deleteBook,
-  insertBookFav,
-  getBookFav,
-  deleteBookFav,
-  likeComent,
-  puntuarLibro,
-  getValorarLibro
+  deleteMensaje,
+  enviarMail
   } = require("./chat.service");
   const transporter = require('../_helpers/mailer');
   
@@ -100,23 +94,10 @@ const {
         });
       });
     },
-    updateBook: (req, res) => {
-      const body = req.body;
-      updateBook(body, (err, results) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        return res.json({
-          success: 1,
-          message: "updated successfully"
-        });
-      });
-    },
-    deleteBook: (req, res) => {
+    deleteMensaje: (req, res) => {
       const data = req.body;
       console.log(data);
-      deleteBook(data, (err, results) => {
+      deleteMensaje(data, (err, results) => {
         if (err) {
           console.log(err);
           return;
@@ -130,93 +111,7 @@ const {
         }
         return res.json({
           success: 1,
-          message: "Book deleted successfully"
-        });
-      });
-    },
-    likeComent: (req, res) => {
-      const body = req.body;
-      likeComent(body, (err, results) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        return res.json({
-          success: 1,
-          message: "like updated successfully"
-        });
-      });
-    },
-    getBookFav: (req, res) => {
-      const id = req.params.id;
-      getBookFav(id, (err, results) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        if (!results) {
-          return res.json({
-            success: 0,
-            message: "Record not Found"
-          });
-        }
-        results.password = undefined;
-        return res.json({
-          success: 1,
-          data: results
-        });
-      });
-    },
-    insertBookFav: (req, res) => {
-      const body = req.body;
-      insertBookFav(body, (err, results) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({
-            success: 0,
-            message: err
-          });
-        }
-        return res.status(200).json({
-          success: 1,
-          data: results
-        });
-      })
-    },
-    deleteBookFav: (req, res) => {
-      const data = req.body;
-      console.log(data);
-      deleteBookFav(data, (err, results) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log(results);
-        if (!results) {
-          return res.json({
-            success: 0,
-            message: "Record Not Found"
-          });
-        }
-        return res.json({
-          success: 1,
-          message: "Book deleted favorite successfully"
-        });
-      });
-    },
-    puntuarLibro: (req, res) => {
-      const body = req.body;
-      puntuarLibro(body, (err, results) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({
-            success: 0,
-            message: err
-          });
-        }
-        return res.status(200).json({
-          success: 1,
-          data: results
+          message: "Mensaje deleted successfully"
         });
       });
     },
@@ -230,25 +125,5 @@ const {
         html: `<p>Saludos de ${body.name}, usuario de la aplicación de <b>RobinBook</b> te ha recomendado el siguiente libro: ${body.title}!</p>`,
       });
       res.send({emailStatus});
-    },
-    getValorarLibro: (req, res) => {
-      const id = req.params.id;
-      getValorarLibro(id, (err, results) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        if (!results) {
-          return res.json({
-            success: 0,
-            message: "Record not Found"
-          });
-        }
-        results.password = undefined;
-        return res.json({
-          success: 1,
-          data: results
-        });
-      });
     }
   };

@@ -6,31 +6,17 @@ const {
   getchatsById,
   createMensaje,
   getMensajes,
-  updateBook,
-  deleteBook,
-  getBookFav,
-  insertBookFav,
-  deleteBookFav,
-  likeComent,
-  puntuarLibro,
-  enviarMail,
-  getValorarLibro
+  deleteMensaje,
+  enviarMail
 } = require("./chat.controller");
 
 router.get("/", checkToken, getChats);
 router.get("/:id", checkToken, getchatsById);
-// router.patch("/", checkToken, updateBook);
-// router.delete("/", checkToken, deleteBook);
 
 router.post("/new", checkToken, createChat);
 router.post("/mensaje", checkToken, createMensaje);
 router.get("/mensaje/:id", checkToken, getMensajes);
-// router.post("/like", checkToken, likeComent);
-// router.get("/fav/:id", checkToken, getBookFav);
-// router.post("/newfav", checkToken, insertBookFav);
-// router.delete("/deletefav", checkToken, deleteBookFav);
-// router.post("/puntuar", checkToken, puntuarLibro);
-// router.post("/mail", checkToken, enviarMail);
-// router.get("/valorar", checkToken, getValorarLibro);
+router.delete("/mensaje/", checkToken, deleteMensaje);
+router.post("/mensaje/mail", checkToken, enviarMail);
 
 module.exports = router;
