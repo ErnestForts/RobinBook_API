@@ -76,7 +76,7 @@ module.exports = {
     },
     getMensajes: (id_chatRoom, callBack) => {
         pool.query(
-            'SELECT chatRooms.id_chatRoom, chatRooms.user_id_origen, chatRooms.user_id_destino, chatMensajes.id_mensaje, chatMensajes.mensaje, chatMensajes.user_id FROM robinbook.chatRooms JOIN chatMensajes ON (chatRooms.id_chatRoom = chatMensajes.id_mensajesRoom) WHERE id_chatRoom = ?;',
+            'SELECT * FROM robinbook.chatMensajes WHERE id_chatRoom = ?;',
             [id_chatRoom],
             (error, results, fields) => {
             if (error) {
