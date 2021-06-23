@@ -109,13 +109,11 @@ const saltRounds = 10;
     },
     deleteUser: (req, res) => {
       const data = req.body;
-      console.log(data);
       deleteUser(data, (err, results) => {
         if (err) {
           console.log(err);
           return;
         }
-        console.log(results);
         if (!results) {
           return res.json({
             success: 0,
@@ -144,17 +142,15 @@ const saltRounds = 10;
           console.log(err);
         }
         if (!results) {
-          return res.json({
-            success: 0,
-            message: "User Not Found"
-          });
+          emailStatus = 'NOT FOUND'
+          return res.json({emailStatus});
         }
         
         const jsontoken = sign({ result: results }, process.env.secret, {
           expiresIn: "10m"
         });
 
-        verificationLink = `http://localhost:4200/new-password/${jsontoken}`;
+        verificationLink = `https://https://robinbookfront.herokuapp.com/new-password/${jsontoken}`;
 
         results.resetToken = jsontoken;
         //send mail

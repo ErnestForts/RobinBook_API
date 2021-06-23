@@ -77,7 +77,6 @@ module.exports = {
         if (error) {
             callBack(error);
         }
-        console.log(results[0]);
         return callBack(null, results);
         }
     );
