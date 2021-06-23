@@ -3,7 +3,7 @@ const {
   createChat,
   getchatsById,
   createMensaje,
-  getMensaje,
+  getMensajes,
   updateBook,
   deleteBook,
   insertBookFav,
@@ -80,9 +80,9 @@ const {
         });
       });
     },
-    getMensaje: (req, res) => {
+    getMensajes: (req, res) => {
       const id = req.params.id;
-      getMensaje(id, (err, results) => {
+      getMensajes(id, (err, results) => {
         if (err) {
           console.log(err);
           return;

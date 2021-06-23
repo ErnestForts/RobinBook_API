@@ -74,10 +74,10 @@ module.exports = {
             }
         );
     },
-    getMensaje: (libro_id, callBack) => {
+    getMensajes: (id_chatRoom, callBack) => {
         pool.query(
-            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLibro.Coment, ComentLibro.id_ComentLibro, ComentLibro.likeComent FROM robinbook.Users JOIN ComentLibro ON (ComentLibro.id_User = Users.user_id) JOIN Libros ON (Libros.libro_id = ComentLibro.id_Libro) WHERE id_Libro = ?;`,
-            [libro_id],
+            `SELECT chatRooms.id_chatRoom, chatRooms.user_id_origen, chatRooms.user_id_destino, chatMensajes.mensaje, chatMensajes.user_id FROM robinbook.chatRooms JOIN chatMensajes ON (chatRooms.id_chatRoom = chatMensajes.id_mensajesRoom) WHERE id_chatRoom = ?;`,
+            [id_chatRoom],
             (error, results, fields) => {
             if (error) {
                 callBack(error);
