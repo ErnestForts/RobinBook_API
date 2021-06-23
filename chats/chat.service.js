@@ -51,9 +51,9 @@ module.exports = {
     },
     createMensaje: (data,callback) => {
         pool.query(
-            'INSERT INTO robinbook.chatMensajes (id_mensajesRoom, mensaje, user_id) VALUES (?,?,?);',
+            'INSERT INTO robinbook.chatMensajes (id_chatRoom, mensaje, user_id) VALUES (?,?,?);',
             [
-            data.id_mensajesRoom,
+            data.id_chatRoom,
             data.mensaje,
             data.user_id
             ], (error, results, fields) =>{
