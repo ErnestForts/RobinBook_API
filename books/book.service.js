@@ -219,7 +219,7 @@ module.exports = {
             }
         );
     },
-    getValorarLibro: (user_id, callBack) => {
+    getValorarLibro: (id_User, callBack) => {
         pool.query(
             'SELECT * FROM robinbook.ValorarLibro WHERE id_User = ?;',
             [id_User],
