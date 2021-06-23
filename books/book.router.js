@@ -12,7 +12,9 @@ const {
   deleteBookFav,
   getComent,
   likeComent,
-  puntuarLibro
+  puntuarLibro,
+  enviarMail,
+  getValorarLibro
 } = require("./book.controller");
 
 router.get("/", checkToken, getBooks);
@@ -28,5 +30,7 @@ router.get("/fav/:id", checkToken, getBookFav);
 router.post("/newfav", checkToken, insertBookFav);
 router.delete("/deletefav", checkToken, deleteBookFav);
 router.post("/puntuar", checkToken, puntuarLibro);
+router.post("/mail", checkToken, enviarMail);
+router.get("/valorar/:id", checkToken, getValorarLibro);
 
 module.exports = router;

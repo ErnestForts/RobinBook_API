@@ -110,7 +110,7 @@ module.exports = {
     },
     getComent: (libro_id, callBack) => {
         pool.query(
-            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLibro.Coment FROM robinbook.Users JOIN ComentLibro ON (ComentLibro.id_User = Users.user_id) JOIN Libros ON (Libros.libro_id = ComentLibro.id_Libro) WHERE id_Libro = ?;`,
+            `SELECT Users.Nombre, Users.Apellido, Users.Foto, ComentLibro.Coment, ComentLibro.id_ComentLibro, ComentLibro.likeComent FROM robinbook.Users JOIN ComentLibro ON (ComentLibro.id_User = Users.user_id) JOIN Libros ON (Libros.libro_id = ComentLibro.id_Libro) WHERE id_Libro = ?;`,
             [libro_id],
             (error, results, fields) => {
             if (error) {
@@ -122,10 +122,10 @@ module.exports = {
     },
     likeComent: (data, callBack) => {
         pool.query(
-            'UPDATE robinbook.ComentLibro SET LikeComent = LikeComent + 1 WHERE id_User = ? AND id_Libro = ?;',
+            'UPDATE robinbook.ComentLibro SET LikeComent = LikeComent + 1 WHERE id_Libro = ? AND id_ComentLibro = ?;',
             [
-            data.id_User,
-            data.id_Lugar
+            data.id_Libro,
+            data.id_ComentLibro
             ],
             (error, results, fields) => {
             if (error) {
@@ -182,29 +182,52 @@ module.exports = {
         pool.query(
             'UPDATE robinbook.Libros SET VecesPuntuado = VecesPuntuado + 1 WHERE libro_id = ?;',
             [data.libro_id], (error, results, fields) =>{
-            if(error){
-                callback(error);
-            }
+                if(error){
+                    callback(error);
+                }
                 pool.query(
                     'UPDATE robinbook.Libros SET PuntosTotales = PuntosTotales + ? WHERE libro_id = ?;',
                     [
                     data.numEstrellas,
                     data.libro_id
                     ], (error, results, fields) =>{
-                    if(error){
-                        callback(error);
-                    }
-                        pool.query(
-                            'UPDATE robinbook.Users SET ranking = ranking + 5 WHERE user_id = ?;',
-                            [data.user_id], (error, results, fields) =>{
-                            if(error){
-                                callback(error);
-                            }
-                            return callback(null,results);
+                        if(error){
+                            callback(error);
+                        }
+                            pool.query(
+                                'INSERT INTO robinbook.ValorarLibro (id_Libro, id_User) VALUES (?,?);',
+                                [
+                                data.id_Libro,
+                                data.id_User
+                                ], (error, results, fields) =>{
+                                    if(error){
+                                        callback(error);
+                                    }
+                                pool.query(
+                                    'UPDATE robinbook.Users SET ranking = ranking + 5 WHERE user_id = ?;',
+                                    [data.user_id], (error, results, fields) =>{
+                                        if(error){
+                                            callback(error);
+                                        }
+                                        return callback(null,results);
+                                    }
+                                );
                             }
                         );
                     }
                 );
+            }
+        );
+    },
+    getValorarLibro: (id_User, callBack) => {
+        pool.query(
+            'SELECT * FROM robinbook.ValorarLibro WHERE id_User = ?;',
+            [id_User],
+            (error, results, fields) => {
+            if (error) {
+                callBack(error);
+            }
+            return callBack(null, results);
             }
         );
     }
