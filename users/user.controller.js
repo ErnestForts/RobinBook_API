@@ -150,7 +150,7 @@ const saltRounds = 10;
           expiresIn: "10m"
         });
 
-        verificationLink = `https://https://robinbookfront.herokuapp.com/new-password/${jsontoken}`;
+        verificationLink = `https://robinbookfront.herokuapp.com/new-password/${jsontoken}`;
 
         results.resetToken = jsontoken;
         //send mail
